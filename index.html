@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPIN IT — spin to build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070d;--surface:#11111a;--line:rgba(255,255,255,.09);--text:#f4f6f8;--muted:#8b8fa3;
+  --display:'Anton',sans-serif;--body:'Space Grotesk',sans-serif;
+  --liftA:#d62f3e;--liftB:#1f7fd1;--liftC:#1ea24f;
+  --dropA:#ff2d95;--dropB:#9b4dff;--dropC:#00e5ff;
+  --rollA:#f4cf63;--rollB:#e8853a;--rollC:#c0392b;--gold:#e8b53a;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:
+   radial-gradient(60% 50% at 18% 0%,rgba(214,47,62,.12),transparent 60%),
+   radial-gradient(60% 50% at 82% 4%,rgba(155,77,247,.14),transparent 60%),
+   radial-gradient(70% 60% at 50% 100%,rgba(232,133,58,.08),transparent 60%),
+   var(--bg);
+  color:var(--text);font-family:var(--body);min-height:100vh;display:flex;flex-direction:column}
+.wrap{max-width:1000px;margin:0 auto;width:100%;padding:46px 20px 60px;flex:1;display:flex;flex-direction:column}
+.hero{text-align:center;margin-bottom:8px}
+.wheel{width:118px;margin:0 auto 10px;animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.mark{font-family:var(--display);font-size:clamp(66px,15vw,132px);line-height:.86;text-transform:uppercase;letter-spacing:.005em}
+.mark .it{background:linear-gradient(100deg,var(--liftA),var(--gold) 30%,var(--dropC) 60%,var(--dropB));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{color:var(--muted);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:13px;margin-top:12px}
+.cards{display:grid;grid-template-columns:1fr;gap:16px;margin-top:42px}
+@media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--text);
+  background:linear-gradient(170deg,var(--surface),#0c0c14);border:1px solid var(--line);border-radius:20px;padding:30px 22px 26px;overflow:hidden;
+  transition:transform .16s,border-color .16s,box-shadow .16s}
+.card .accent{position:absolute;top:0;left:0;right:0;height:5px}
+.card:hover{transform:translateY(-5px)}
+.card .emb{width:88px;height:88px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.card .emb svg{max-width:100%;max-height:100%}
+.card .name{font-family:var(--display);font-size:42px;text-transform:uppercase;line-height:.9}
+.card .cat{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.card .desc{font-size:13px;color:var(--muted);line-height:1.5;margin-top:12px;min-height:38px}
+.card .enter{margin-top:18px;font-family:var(--display);font-size:15px;letter-spacing:.12em;text-transform:uppercase;padding:11px 22px;border-radius:11px;color:#fff}
+
+/* Lift It skin */
+.lift .accent{background:linear-gradient(90deg,var(--liftA),var(--liftB),var(--liftC))}
+.lift:hover{border-color:var(--liftB);box-shadow:0 14px 40px -16px rgba(31,127,209,.5)}
+.lift .name{background:linear-gradient(120deg,var(--liftA),var(--liftB) 55%,var(--liftC));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lift .enter{background:linear-gradient(100deg,var(--liftA),var(--liftB) 55%,var(--liftC))}
+
+/* Drop It skin */
+.drop .accent{background:linear-gradient(90deg,var(--dropA),var(--dropB),var(--dropC))}
+.drop:hover{border-color:var(--dropB);box-shadow:0 14px 40px -16px rgba(155,77,247,.55)}
+.drop .name{background:linear-gradient(120deg,var(--dropA),var(--dropB) 52%,var(--dropC));-webkit-background-clip:text;background-clip:text;color:transparent}
+.drop .enter{background:linear-gradient(100deg,var(--dropA),var(--dropB) 52%,var(--dropC))}
+
+/* Roll It skin (coming soon) */
+.roll{cursor:not-allowed}
+.roll .accent{background:linear-gradient(90deg,var(--rollA),var(--rollB),var(--rollC))}
+.roll .name{background:linear-gradient(120deg,var(--rollA),var(--rollB) 55%,var(--rollC));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.85}
+.roll .emb{opacity:.85}
+.roll .soon{margin-top:18px;font-family:var(--display);font-size:14px;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;border-radius:11px;
+  color:var(--rollA);border:1px solid var(--rollA);background:rgba(232,133,58,.08)}
+.badge{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rollA);border:1px solid var(--rollA);border-radius:999px;padding:4px 9px}
+
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:auto;padding-top:42px;letter-spacing:.04em}
+.foot .dotrow{margin-bottom:8px}
+.foot .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="wheel"><svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spin It wheel">
+  <defs><filter id="wg" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <circle cx="120" cy="120" r="105" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.15"/>
+  <g filter="url(#wg)"><path d="M120,120 L120.0,20.0 A100,100 0 0 1 206.6,70.0 Z" fill="#d62f3e"/><path d="M120,120 L206.6,70.0 A100,100 0 0 1 206.6,170.0 Z" fill="#e8b53a"/><path d="M120,120 L206.6,170.0 A100,100 0 0 1 120.0,220.0 Z" fill="#1ea24f"/><path d="M120,120 L120.0,220.0 A100,100 0 0 1 33.4,170.0 Z" fill="#00e5ff"/><path d="M120,120 L33.4,170.0 A100,100 0 0 1 33.4,70.0 Z" fill="#9b4dff"/><path d="M120,120 L33.4,70.0 A100,100 0 0 1 120.0,20.0 Z" fill="#ff2d95"/></g>
+  <circle cx="120" cy="120" r="100" fill="none" stroke="#0a0a0f" stroke-width="3" opacity="0.35"/>
+  <circle cx="120" cy="120" r="22" fill="#0a0a0f"/>
+  <circle cx="120" cy="120" r="22" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <circle cx="120" cy="120" r="7" fill="#ffffff"/>
+  <path d="M108,6 L132,6 L120,30 Z" fill="#ffffff"/>
+</svg></div>
+    <div class="mark">Spin <span class="it">It</span></div>
+    <div class="tagline">Spin to build · pick your game</div>
+  </div>
+
+  <div class="cards">
+    <!-- LIFT IT -->
+    <a class="card lift" id="cardLift" href="#">
+      <div class="accent"></div>
+      <div class="emb"><svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="trophy">
+  <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4cf63"/><stop offset="1" stop-color="#b8860b"/></linearGradient></defs>
+  <path d="M38,18 H82 V44 a22,22 0 0 1 -44,0 Z" fill="url(#tg)"/>
+  <path d="M38,22 H22 a14,14 0 0 0 14,18" fill="none" stroke="url(#tg)" stroke-width="6"/>
+  <path d="M82,22 H98 a14,14 0 0 1 -14,18" fill="none" stroke="url(#tg)" stroke-width="6"/>
+  <rect x="55" y="62" width="10" height="20" fill="url(#tg)"/>
+  <path d="M40,96 q20,-16 40,0 v6 H40 Z" fill="url(#tg)"/>
+  <rect x="34" y="102" width="52" height="10" rx="3" fill="url(#tg)"/>
+  <rect x="44" y="112" width="32" height="8" fill="#8a6508"/>
+</svg></div>
+      <div class="name">Lift It</div>
+      <div class="cat">Sport</div>
+      <div class="desc">Spin the nations, build your XI across World Cup history — can you go unbeaten?</div>
+      <div class="enter">Play →</div>
+    </a>
+
+    <!-- DROP IT -->
+    <a class="card drop" id="cardDrop" href="#">
+      <div class="accent"></div>
+      <div class="emb"><svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drop It vinyl emblem">
+  <defs>
+    <radialGradient id="discS" cx="0.42" cy="0.36" r="0.85">
+      <stop offset="0" stop-color="#26202e"/><stop offset="0.5" stop-color="#15101d"/><stop offset="1" stop-color="#0b0712"/>
+    </radialGradient>
+    <linearGradient id="labelS" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff2d95"/><stop offset="0.5" stop-color="#9b4dff"/><stop offset="1" stop-color="#00e5ff"/>
+    </linearGradient>
+    <linearGradient id="rimS" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff2d95"/><stop offset="0.5" stop-color="#9b4dff"/><stop offset="1" stop-color="#00e5ff"/>
+    </linearGradient>
+    <filter id="glowS" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- neon rim glow -->
+  <circle cx="140" cy="140" r="115" fill="none" stroke="url(#rimS)" stroke-width="4" filter="url(#glowS)"/>
+
+  <!-- disc -->
+  <circle cx="140" cy="140" r="110" fill="url(#discS)"/>
+
+  <!-- grooves -->
+  <circle cx="140" cy="140" r="46.0" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="50.2" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="54.4" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="58.6" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="62.8" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="67.0" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="71.2" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="75.4" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="79.6" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="83.8" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="88.0" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="92.2" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="96.4" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="100.6" fill="none" stroke="#1c1726" stroke-width="1.1"/><circle cx="140" cy="140" r="104.8" fill="none" stroke="#1c1726" stroke-width="1.1"/>
+
+  <!-- centre label -->
+  <circle cx="140" cy="140" r="38" fill="url(#labelS)"/>
+  <circle cx="140" cy="140" r="38" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.25"/>
+  <!-- spindle hole -->
+  <circle cx="140" cy="140" r="5" fill="#0a0612"/>
+
+  <!-- sheen -->
+  <path d="M50,90 A110,110 0 0 1 190,48" fill="none" stroke="#ffffff" stroke-width="10" opacity="0.06" stroke-linecap="round"/>
+  <ellipse cx="100" cy="94" rx="40" ry="20" fill="#ffffff" opacity="0.05" transform="rotate(-30 100 94)"/>
+</svg></div>
+      <div class="name">Drop It</div>
+      <div class="cat">Music</div>
+      <div class="desc">Build the perfect festival line-up, or curate a genre's ultimate best-of.</div>
+      <div class="enter">Play →</div>
+    </a>
+
+    <!-- ROLL IT -->
+    <div class="card roll" id="cardRoll">
+      <div class="badge">Coming soon</div>
+      <div class="accent"></div>
+      <div class="emb"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="film reel">
+  <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4cf63"/><stop offset="0.6" stop-color="#e8853a"/><stop offset="1" stop-color="#c0392b"/></linearGradient></defs>
+  <circle cx="60" cy="60" r="52" fill="url(#rg)"/>
+  <circle cx="60" cy="60" r="52" fill="none" stroke="#1a1024" stroke-width="3"/>
+  <circle cx="60" cy="60" r="13" fill="#1a1024"/>
+  <circle cx="90.0" cy="60.0" r="9" fill="#1a1024"/><circle cx="75.0" cy="86.0" r="9" fill="#1a1024"/><circle cx="45.0" cy="86.0" r="9" fill="#1a1024"/><circle cx="30.0" cy="60.0" r="9" fill="#1a1024"/><circle cx="45.0" cy="34.0" r="9" fill="#1a1024"/><circle cx="75.0" cy="34.0" r="9" fill="#1a1024"/>
+</svg></div>
+      <div class="name">Roll It</div>
+      <div class="cat">Film</div>
+      <div class="desc">Cast the perfect film and build your dream watchlist. In the works.</div>
+      <div class="soon">Soon</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="dotrow">
+      <span class="dot" style="background:var(--liftB)"></span>
+      <span class="dot" style="background:var(--dropB)"></span>
+      <span class="dot" style="background:var(--rollB)"></span>
+    </div>
+    SPIN IT — one spin mechanic, three games.
+  </div>
+</div>
+
+<script>
+/* ===== EDIT THESE LINKS to wherever you host each game ===== */
+var LINKS = {
+  liftit: "lift-it/",     /* lift-it/index.html (the World Cup game) */
+  dropit: "drop-it/"      /* drop-it/index.html */
+  /* rollit: not built yet */
+};
+/* ========================================================== */
+(function(){
+  var L=document.getElementById('cardLift');
+  var D=document.getElementById('cardDrop');
+  if(LINKS.liftit) L.setAttribute('href',LINKS.liftit); else L.removeAttribute('href');
+  if(LINKS.dropit) D.setAttribute('href',LINKS.dropit); else D.removeAttribute('href');
+})();
+</script>
+</body>
+</html>
