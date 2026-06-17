@@ -93,6 +93,13 @@ h1.screen-title{font-family:var(--display);font-size:clamp(30px,6vw,44px);text-t
 .switch[aria-checked="false"]{background:#2a3140}
 .switch[aria-checked="false"]::after{left:3px}
 .toggle-note{text-align:center;color:var(--muted);font-size:13px;margin-top:10px}
+.diffseg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.diffseg button{cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  border-radius:12px;padding:11px 6px;font-family:var(--body);font-weight:700;font-size:13px;transition:all .15s;text-align:center;line-height:1.15}
+.diffseg button .dsub{display:block;font-size:10px;font-weight:700;letter-spacing:.02em;opacity:.7;margin-top:3px}
+.diffseg button:hover{border-color:var(--muted)}
+.diffseg button.on{border-color:var(--gold);background:rgba(232,181,58,.12);color:var(--gold)}
+.diffseg button.on .dsub{opacity:.95}
 .stickers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 @media (max-width:560px){.stickers{grid-template-columns:repeat(2,1fr)}}
 .sticker{position:relative;cursor:pointer;border:1px solid var(--line);border-radius:12px;
@@ -301,7 +308,10 @@ table.grp tr.q3 td:first-child::after{content:" ●";color:var(--blue);font-size
 
 <!-- ===================================================== TOP BAR -->
 <div class="topbar">
-  <div class="mark" id="homeLink">Lift <span>It</span></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="../" style="display:inline-flex;align-items:center;gap:4px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:#e8b53a;border:1px solid rgba(232,181,58,.6);border-radius:999px;padding:5px 11px;white-space:nowrap">↑ Spin It</a>
+    <div class="mark" id="homeLink">Lift <span>It</span></div>
+  </div>
   <div class="strap" id="strap">Can you go unbeaten?</div>
   <button class="pill" onclick="location.reload()">↻ Restart</button>
 </div>
@@ -339,6 +349,14 @@ table.grp tr.q3 td:first-child::after{content:" ●";color:var(--blue);font-size
     </div>
     <p class="toggle-note" id="ratingsNote">Player ratings visible</p>
 
+    <p class="field-label" id="diffLabel">Difficulty</p>
+    <div class="diffseg" id="diffSeg" role="group" aria-labelledby="diffLabel">
+      <button data-diff="underdog" type="button">Underdog<span class="dsub">Every game a fight</span></button>
+      <button data-diff="balanced" class="on" type="button">Contender<span class="dsub">Stars shine, giants bite</span></button>
+      <button data-diff="galactico" type="button">Galáctico<span class="dsub">Steamroll the field</span></button>
+    </div>
+    <p class="toggle-note" id="diffNote">Your dream XI rates as a genuine contender — clear favourites against weaker sides, a real test against the giants.</p>
+
     <p class="field-label">Tournaments in the spin pool</p>
     <div class="stickers" id="stickers" role="group"></div>
     <div class="pool-chip">👤 <b id="poolCount">0</b>&nbsp;players in pool</div>
@@ -353,6 +371,8 @@ table.grp tr.q3 td:first-child::after{content:" ●";color:var(--blue);font-size
     <a href="top5.html" class="cta" id="top5HomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">🏆&nbsp; Top 5</a>
 
     <a href="headtohead.html" class="cta" id="h2hHomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">⚔️&nbsp; Who's Better?</a>
+
+    <a href="worth.html" class="cta" id="worthHomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">💷&nbsp; What's He Worth?</a>
 
     <section class="panel" style="margin-top:48px">
       <h3>How it works</h3>
@@ -1555,6 +1575,14 @@ let TEAM=null;   /* set when XI complete: {teamName,formation,strength,xi[]} */
     $("#ratingsNote").textContent=SETUP.showRatings?"Player ratings visible":"Ratings hidden — pick on instinct";
   });
 
+  $("#diffSeg").querySelectorAll("button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      DIFF=btn.dataset.diff;
+      $("#diffSeg").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===btn));
+      $("#diffNote").textContent=DIFFS[DIFF].note;
+    });
+  });
+
   const HOSTS={ "1966":"England","1970":"Mexico","1986":"Mexico","1998":"France",
                 "2006":"Germany","2014":"Brazil","2022":"Qatar","2026":"USA·MEX·CAN" };
   const stickEl=$("#stickers");
@@ -1793,9 +1821,17 @@ function pickScorer(){
   for(const p of C.scorerPool){ r-=p.w; if(r<=0)return p.name; }
   return C.scorerPool[0].name;
 }
+const DIFFS={
+  underdog:{U:0,div:10,fav:.06,base:1.32,label:"Underdog",note:"Brutal. Every game is a fight — even the minnows can bite."},
+  balanced:{U:3,div:9,fav:.10,base:1.32,label:"Contender",note:"Your dream XI rates as a genuine contender — clear favourites against weaker sides, a real test against the giants."},
+  galactico:{U:5,div:8,fav:.12,base:1.35,label:"Galáctico",note:"A galáctico super-team that steamrolls the field. Glory expected."}
+};
+let DIFF="balanced";
 function poisson(l){ let L=Math.exp(-l),k=0,p=1; do{k++;p*=Math.random();}while(p>L); return k-1; }
-function lambdas(ra,rb){ const base=1.30,d=ra-rb;
-  return [Math.min(Math.max(base*Math.exp(d/14),.15),4.6),Math.min(Math.max(base*Math.exp(-d/14),.15),4.6)]; }
+function lambdas(ra,rb){ const D=(C&&C.diffCfg)||DIFFS[DIFF]||DIFFS.balanced; const d=ra-rb;
+  let la=D.base*Math.exp(d/D.div), lb=D.base*Math.exp(-d/D.div);
+  if(d>0) la*=(1+D.fav*Math.min(d,14)/14); else if(d<0) lb*=(1+D.fav*Math.min(-d,14)/14);
+  return [Math.min(Math.max(la,.12),5),Math.min(Math.max(lb,.12),5)]; }
 function playMatch(ra,rb){ const [la,lb]=lambdas(ra,rb); return [poisson(la),poisson(lb)]; }
 function playKO(ra,rb){
   let [a,b]=playMatch(ra,rb),et=false,pens=null;
@@ -1816,6 +1852,7 @@ function sortGrp(g){ return g.slice().sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a
 function startCampaign(c){
   Object.assign(C,{camp:c,groups:[],uGroup:0,md:0,record:{w:0,d:0,l:0,gf:0,ga:0},
     scorers:{},perfect:true,unbeaten:true,koRounds:[],koNames:[],koIdx:0,uAlive:true,replaced:"",grpDone:false});
+  C.diffCfg=DIFFS[DIFF]||DIFFS.balanced;
   const field=c.teams.map(t=>({name:t[0],rtg:t[1],pts:0,gd:0,gf:0,you:false}));
   for(let i=field.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [field[i],field[j]]=[field[j],field[i]]; }
   const nG=field.length/4;
@@ -1824,7 +1861,7 @@ function startCampaign(c){
   const grp=C.groups[C.uGroup];
   let low=0; grp.forEach((t,i)=>{ if(t.rtg<grp[low].rtg)low=i; });
   C.replaced=grp[low].name;
-  grp[low]={name:TEAM.teamName,rtg:TEAM.strength,pts:0,gd:0,gf:0,you:true};
+  grp[low]={name:TEAM.teamName,rtg:TEAM.strength + C.diffCfg.U,pts:0,gd:0,gf:0,you:true};
   const L=String.fromCharCode(65+C.uGroup);
   $("#strap").textContent=TEAM.teamName+" — "+c.year+" campaign";
   $("#grpTitle").textContent=c.year+" · Group "+L;
