@@ -111,6 +111,14 @@ body{background:radial-gradient(125% 75% at 50% 0%,#1a0b2e,#0a0612 62%);color:va
 .gl2 .x{font-family:var(--display);font-size:16px;color:var(--muted);width:20px;text-align:center;flex-shrink:0}
 .gl2 .pn{font-weight:700;font-size:14px;flex:1;text-align:left}
 .gl2 .pm{font-size:11px;color:var(--muted);font-weight:700}
+/* festival type picker + themed poster */
+.btype{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted);margin-top:3px}
+.typebtn{position:relative}
+.typebtn:hover{border-color:var(--tc)}
+.typebtn .tdot{position:absolute;top:12px;right:12px;width:12px;height:12px;border-radius:50%}
+.typebtn .temoji{font-size:26px;margin-bottom:4px}
+.poster.themed{background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--theme) 22%,transparent),transparent 70%),linear-gradient(160deg,#160e26,#0a0612 75%);border-color:var(--theme)}
+.poster.themed .pn{background:none;color:var(--theme);-webkit-text-fill-color:var(--theme)}
 .overlay{position:fixed;inset:0;background:rgba(6,4,12,.86);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;z-index:40}
 .overlay.show{display:flex}
 .sheet{background:var(--surface);border:1px solid var(--line);border-top-left-radius:20px;border-top-right-radius:20px;width:100%;max-width:760px;max-height:82vh;overflow-y:auto;padding:18px 16px 26px;animation:rise .25s}
@@ -144,6 +152,7 @@ body{background:radial-gradient(125% 75% at 50% 0%,#1a0b2e,#0a0612 62%);color:va
 .poster .h3act{font-weight:700;font-size:14px;color:var(--muted);letter-spacing:.02em}
 .poster .dot{color:var(--purple);margin:0 7px}
 .swaphint{font-size:12px;color:var(--muted);margin:6px auto 14px;max-width:340px;line-height:1.45}
+.sidehdr{font-family:var(--display);font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px;text-align:left;border-bottom:1px solid var(--line);padding-bottom:5px}
 .borow{display:flex;align-items:center;gap:10px;margin:7px 0;text-align:left;font-size:15px}
 .bonum{color:var(--purple);font-family:var(--display);flex-shrink:0;width:22px;text-align:center}
 .botxt{flex:1}
@@ -217,14 +226,26 @@ body{background:radial-gradient(125% 75% at 50% 0%,#1a0b2e,#0a0612 62%);color:va
       <button class="cta" id="startBestOf" style="background:linear-gradient(100deg,var(--cyan),var(--purple) 52%,var(--pink))">💿&nbsp; Best Of</button>
       <button class="cta" id="startWhosBetter" style="background:linear-gradient(100deg,var(--purple),var(--pink) 52%,var(--gold))">⚔️&nbsp; Who's Better?</button>
       <button class="cta" id="startTop5" style="background:linear-gradient(100deg,var(--gold),var(--pink) 55%,var(--purple))">🏆&nbsp; Top 5</button>
+      <a class="cta" id="startTicket" href="ticket.html" style="display:block;text-align:center;text-decoration:none;background:linear-gradient(100deg,var(--cyan),var(--gold) 55%,var(--pink))">🎟️&nbsp; What's the Ticket?</a>
     </div>
   </div>
 </section>
 
 <!-- BUILD -->
+<!-- FESTIVAL: pick type -->
+<section class="screen" id="festTypeScreen">
+  <h1 class="t" style="font-family:var(--display);font-size:clamp(28px,7vw,44px);text-transform:uppercase;text-align:center;line-height:.95">Pick your <span style="background:linear-gradient(135deg,var(--pink),var(--purple) 52%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent">festival</span></h1>
+  <p class="sub" style="text-align:center;color:var(--muted);font-size:14px;margin:12px auto 22px;max-width:460px;line-height:1.55">Choose the vibe — it sets your stages and the look of your poster. You can still rename every stage as you build.</p>
+  <div class="poslist" id="festTypeList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px"></div>
+  <div class="center"><a class="home" href="#" id="festTypeHome">← Drop It home</a></div>
+</section>
+
 <section class="screen" id="buildScreen">
   <div class="bhead">
-    <div class="ttl" id="buildTitle">Your Festival</div>
+    <div>
+      <div class="ttl" id="buildTitle">Your Festival</div>
+      <div class="btype" id="buildType"></div>
+    </div>
     <div class="cnt" id="slotCount">0 / 10 booked</div>
   </div>
   <div id="stages"></div>
@@ -287,6 +308,14 @@ body{background:radial-gradient(125% 75% at 50% 0%,#1a0b2e,#0a0612 62%);color:va
 
 
 <!-- BEST OF -->
+<!-- BEST OF: pick format -->
+<section class="screen" id="boFormatScreen">
+  <h1 class="t" style="font-family:var(--display);font-size:clamp(28px,7vw,44px);text-transform:uppercase;text-align:center;line-height:.95">Pick your <span style="background:linear-gradient(135deg,var(--cyan),var(--purple) 52%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent">format</span></h1>
+  <p class="sub" style="text-align:center;color:var(--muted);font-size:14px;margin:12px auto 22px;max-width:460px;line-height:1.55">How do you want your best-of pressed? Cassette and vinyl split into Side A / Side B; CD is one clean booklet.</p>
+  <div class="poslist" id="boFormatList" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"></div>
+  <div class="center"><a class="home" href="#" id="boFormatHome">← Drop It home</a></div>
+</section>
+
 <!-- BEST OF: pick genre -->
 <section class="screen" id="boGenreScreen">
   <h1 class="t" style="font-family:var(--display);font-size:clamp(30px,7vw,46px);text-transform:uppercase;text-align:center;line-height:.95">Pick a <span style="background:linear-gradient(135deg,var(--cyan),var(--purple) 52%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent">genre</span></h1>
@@ -523,19 +552,47 @@ const STAGES=[
 ];
 const TOTAL_SLOTS=STAGES.reduce((a,s)=>a+s.slots.length,0);
 
-const ST={name:"", stageNames:STAGES.map(s=>s.stage), bill:{}, used:new Set(), pending:null, choosing:false};
+/* Festival types (look only — theme colour, default stage names, vibe). Original names, inspired by famous vibes. */
+const FEST_TYPES=[
+  {key:"fields",   name:"Pyramid Fields",   icon:"🌾", color:"#1ea24f", blurb:"Legendary green field festival", stages:["Main Stage","The Meadow","Dance Field"]},
+  {key:"desert",   name:"Desert Mirage",    icon:"🌅", color:"#e8853a", blurb:"Sun-baked desert dance", stages:["Main Stage","Sundown Stage","Mirage Tent"]},
+  {key:"forge",    name:"The Forge",        icon:"🤘", color:"#d62f3e", blurb:"Loud, heavy, relentless", stages:["Main Stage","Second Stage","The Pit"]},
+  {key:"coast",    name:"Sunset Coast",     icon:"🌊", color:"#1f7fd1", blurb:"Beach party till sunrise", stages:["Beach Stage","Sunset Stage","The Lagoon"]},
+  {key:"cathedral",name:"Electric Cathedral",icon:"⚡", color:"#00e5ff", blurb:"Cathedral of dance", stages:["Mainstage","The Hive","The Crypt"]},
+  {key:"neon",     name:"Neon City",        icon:"🌃", color:"#9b4dff", blurb:"Rooftops and basements", stages:["Main Stage","Rooftop","Basement"]}
+];
+
+const ST={name:"", type:FEST_TYPES[0], stageNames:STAGES.map(s=>s.stage), bill:{}, used:new Set(), pending:null, choosing:false};
 
 function slotId(si,j){return si+"-"+j;}
 
-/* HOME */
+/* HOME -> festival type picker */
 $("#startFestival").onclick=()=>{
   const v=$("#festName").value.trim();
   ST.name=v||"Spinfield";
-  ST.bill={};ST.used=new Set();ST.pending=null;ST.choosing=false;ST.stageNames=STAGES.map(s=>s.stage);
+  renderFestTypes();
+  show("festTypeScreen");
+};
+function renderFestTypes(){
+  const list=$("#festTypeList");list.innerHTML="";
+  FEST_TYPES.forEach(t=>{
+    const b=document.createElement("button");b.className="posbtn typebtn";
+    b.style.setProperty("--tc",t.color);
+    b.innerHTML='<div class="tdot" style="background:'+t.color+'"></div><div class="temoji">'+t.icon+'</div><div class="nm" style="font-size:15px">'+escapeHtml(t.name)+'</div><div class="ct">'+escapeHtml(t.blurb)+'</div>';
+    b.onclick=()=>pickFestType(t);
+    list.appendChild(b);
+  });
+}
+$("#festTypeHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+function pickFestType(t){
+  ST.type=t;
+  ST.bill={};ST.used=new Set();ST.pending=null;ST.choosing=false;
+  ST.stageNames=t.stages.slice();
   $("#buildTitle").textContent=ST.name;
+  $("#buildType").innerHTML='<span style="color:'+t.color+'">'+t.icon+'</span> '+escapeHtml(t.name);
   renderStages();updateCount();
   show("buildScreen");
-};
+}
 
 /* BUILD — render bill */
 function escapeHtml(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
@@ -625,13 +682,16 @@ $("#quitBuild").onclick=()=>show("homeScreen");
 /* POSTER */
 function revealPoster(){
   const p=$("#poster");
-  let html='<div class="pe">Spin It presents</div><div class="pn">'+ST.name+'</div><div class="pd">The line-up you built</div>';
+  const t=ST.type||FEST_TYPES[0];
+  p.style.setProperty("--theme",t.color);
+  p.classList.add("themed");
+  let html='<div class="pe" style="color:'+t.color+'">'+t.icon+' '+escapeHtml(t.name)+'</div><div class="pn">'+escapeHtml(ST.name)+'</div><div class="pd">The line-up you built</div>';
   STAGES.forEach((stg,si)=>{
-    html+='<div class="pstage">'+escapeHtml(ST.stageNames[si])+'</div>';
+    html+='<div class="pstage" style="color:'+t.color+'">'+escapeHtml(ST.stageNames[si])+'</div>';
     stg.slots.forEach((sl,j)=>{
       const act=ST.bill[slotId(si,j)]||"—";
       const cls=sl.tier==="Headliner"?"h1act":(sl.tier.indexOf("Sub")>=0||sl.tier==="Late Night"?"h2act":"h3act");
-      html+='<div class="prow '+cls+'">'+act+'</div>';
+      html+='<div class="prow '+cls+'">'+escapeHtml(act)+'</div>';
     });
   });
   p.innerHTML=html;
@@ -652,20 +712,39 @@ $("#rebuild").onclick=()=>{ $("#festName").value=ST.name==="Spinfield"?"":ST.nam
 $("#backHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
 
 /* ===== BEST OF MODE (single-genre curator) ===== */
-const BO={name:"", genre:null, list:[], usedAlbums:new Set(), pendingAlbum:null, swapped:new Set()};
+const BO={name:"", format:null, genre:null, list:[], usedAlbums:new Set(), pendingAlbum:null, swapped:new Set()};
 const BO_LEN=10;
+const BO_FORMATS=[
+  {key:"cassette", name:"Cassette", icon:"📼", color:"#e8853a", blurb:"Side A / Side B", sides:true},
+  {key:"vinyl",    name:"Vinyl",    icon:"🎵", color:"#ff2d95", blurb:"Side A / Side B", sides:true},
+  {key:"cd",       name:"CD",       icon:"💿", color:"#00e5ff", blurb:"One clean booklet", sides:false}
+];
 
 // Topbar marks: Drop It -> Drop It home; Spin It -> SPIN IT umbrella landing
 $("#dropHome").onclick=()=>show("homeScreen");
 $("#spinHome").onclick=()=>{ window.location.href="../"; };  /* up to SPIN IT (root index.html) */
 
-// Step 1: choose Best Of from home -> genre picker
+// Step 1: Best Of -> format picker
 $("#startBestOf").onclick=()=>{
   const v=$("#festName").value.trim();
   BO.name=v||"My Best Of";
-  renderGenrePicker();
-  show("boGenreScreen");
+  renderBoFormats();
+  show("boFormatScreen");
 };
+function renderBoFormats(){
+  const list=$("#boFormatList");list.innerHTML="";
+  BO_FORMATS.forEach(f=>{
+    const b=document.createElement("button");b.className="posbtn typebtn";
+    b.style.setProperty("--tc",f.color);
+    b.innerHTML='<div class="tdot" style="background:'+f.color+'"></div><div class="temoji">'+f.icon+'</div><div class="nm" style="font-size:15px">'+escapeHtml(f.name)+'</div><div class="ct">'+escapeHtml(f.blurb)+'</div>';
+    b.onclick=()=>pickBoFormat(f);
+    list.appendChild(b);
+  });
+}
+$("#boFormatHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+function pickBoFormat(f){ BO.format=f; renderGenrePicker(); show("boGenreScreen"); }
+
+// Step 2: pick genre
 function renderGenrePicker(){
   const list=$("#boGenreList");list.innerHTML="";
   BESTOF_GENRES.forEach(g=>{
@@ -675,9 +754,9 @@ function renderGenrePicker(){
     list.appendChild(b);
   });
 }
-$("#boGenreHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+$("#boGenreHome").onclick=(e)=>{e.preventDefault();show("boFormatScreen");};
 
-// Step 2: start building within the chosen genre
+// Step 3: start building within the chosen genre
 function boStart(g){
   BO.genre=g;
   BO.list=[];BO.usedAlbums=new Set();BO.pendingAlbum=null;BO.swapped=new Set();
@@ -735,15 +814,26 @@ function boPickTrack(track){
 $("#boQuit").onclick=()=>show("boGenreScreen");
 function boReveal(){
   const p=$("#boPoster");
-  let html='<div class="pe">Spin It presents</div><div class="pn">'+escapeHtml(BO.name)+'</div><div class="pd">'+escapeHtml(BO.genre.genre)+' · one track per album</div>';
-  html+='<div class="swaphint">Not happy with one? Tap 🔀 to swap it for a random pick — one swap each.</div>';
-  BO.list.forEach((t,i)=>{
+  const f=BO.format||BO_FORMATS[0];
+  p.style.setProperty("--theme",f.color);
+  p.classList.add("themed");
+  function row(t,i){
     const canSwap=!BO.swapped.has(i);
-    html+='<div class="prow borow"><span class="bonum">'+(i+1)+'</span>'
+    return '<div class="prow borow"><span class="bonum">'+(i+1)+'</span>'
       +'<span class="botxt"><span style="font-weight:700">'+escapeHtml(t.track)+'</span><span class="dot">·</span><span style="color:var(--muted)">'+escapeHtml(t.artist)+'</span></span>'
       +(canSwap?'<button class="swapbtn" data-i="'+i+'" title="Swap this pick">🔀</button>':'<span class="swapped">swapped</span>')
       +'</div>';
-  });
+  }
+  let html='<div class="pe" style="color:'+f.color+'">'+f.icon+' '+escapeHtml(f.name)+'</div><div class="pn">'+escapeHtml(BO.name)+'</div><div class="pd">'+escapeHtml(BO.genre.genre)+' · one track per album</div>';
+  html+='<div class="swaphint">Not happy with one? Tap 🔀 to swap it for a random pick — one swap each.</div>';
+  if(f.sides){
+    html+='<div class="sidehdr" style="color:'+f.color+'">Side A</div>';
+    for(let i=0;i<5;i++) html+=row(BO.list[i],i);
+    html+='<div class="sidehdr" style="color:'+f.color+'">Side B</div>';
+    for(let i=5;i<10;i++) html+=row(BO.list[i],i);
+  } else {
+    for(let i=0;i<BO.list.length;i++) html+=row(BO.list[i],i);
+  }
   p.innerHTML=html;
   p.querySelectorAll('.swapbtn').forEach(b=>b.onclick=()=>boSwap(+b.dataset.i));
   $("#boAfter").style.display="none";
@@ -774,7 +864,7 @@ function boEnd(happy){
   $("#boVerdictSub").textContent=happy?("The definitive "+BO.genre.genre+" best-of — ten albums, ten perfect picks."):"Spin again and pick different tracks.";
   $("#boAfter").style.display="";
 }
-$("#boRebuild").onclick=()=>{ renderGenrePicker(); show("boGenreScreen"); };
+$("#boRebuild").onclick=()=>{ renderBoFormats(); show("boFormatScreen"); };
 $("#boBackHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
 
 /* ===== WHO'S BETTER? (albums, king of the hill) ===== */

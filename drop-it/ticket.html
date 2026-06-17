@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHAT'S THE TICKET? — Drop It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0612;--surface:#160d22;--surface-2:#1f1430;--line:rgba(255,255,255,.09);
+  --text:#f4eefb;--muted:#9a8fb0;--pink:#ff2d95;--cyan:#00e5ff;--purple:#9b4dff;--gold:#e8b53a;
+  --radius:14px;--display:'Anton',sans-serif;--body:'Space Grotesk',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(125% 80% at 50% 0%,#1a0e2e,#0a0612 60%);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
+button{font-family:var(--body)}
+.screen{display:none}.screen.show{display:block}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:34px 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.mark{font-family:var(--display);font-size:22px;text-transform:uppercase}
+.strap{color:var(--muted);font-size:13px;flex:1;text-align:center}
+@media (max-width:640px){.strap{display:none}}
+.pill{background:var(--surface);border:1px solid var(--line);color:var(--text);font-weight:700;font-size:13px;padding:9px 16px;border-radius:999px;cursor:pointer}
+.pill:hover{border-color:var(--pink)}
+.cta{display:block;width:100%;border:none;border-radius:var(--radius);padding:18px;cursor:pointer;font-family:var(--display);font-size:20px;letter-spacing:.13em;text-transform:uppercase;color:#fff;background:linear-gradient(100deg,var(--pink),var(--purple) 52%,var(--cyan));background-size:160% 100%;transition:background-position .35s,transform .1s}
+.cta:hover:not(:disabled){background-position:100% 0}.cta:active:not(:disabled){transform:scale(.99)}
+.cta:disabled{opacity:.4;cursor:not-allowed}
+.ghost{display:block;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:var(--radius);padding:14px;cursor:pointer;font-family:var(--display);font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin-top:12px}
+.ghost:hover{border-color:var(--cyan)}
+h1.screen-title{font-family:var(--display);font-size:clamp(30px,7vw,46px);text-transform:uppercase;text-align:center;letter-spacing:.02em;margin-bottom:8px;line-height:.95}
+h1 .hl{background:linear-gradient(135deg,var(--pink),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{text-align:center;color:var(--muted);font-size:14.5px;line-height:1.6;max-width:500px;margin:0 auto}
+.backlink{text-align:center;margin-top:22px}
+.backlink a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:8px 16px}
+.backlink a:hover{color:var(--text);border-color:var(--pink)}
+.how{display:grid;gap:10px;margin:24px 0}
+.how .row{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.how .n{font-family:var(--display);color:var(--pink);font-size:20px;line-height:1;flex-shrink:0;width:22px;text-align:center}
+.how .tx{font-size:13.5px;color:var(--text);line-height:1.5}.how .tx b{color:var(--cyan)}
+.basis{text-align:center;font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.55}
+
+.hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hud .rd{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pips{display:flex;gap:6px}.pip{width:9px;height:9px;border-radius:50%;background:#33264a}
+.pip.done{background:var(--pink)}.pip.live{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.15)}
+.hud .sc{font-size:13px;font-weight:700;color:var(--gold)}
+.vcard{background:linear-gradient(165deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:18px;padding:22px 18px;text-align:center;overflow:hidden}
+.vcard.legend{border-color:rgba(255,45,149,.45)}.vcard.modern{border-color:rgba(0,229,255,.4)}
+.vtag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.vtag.legend{background:rgba(255,45,149,.14);color:var(--pink);border:1px solid rgba(255,45,149,.5)}
+.vtag.modern{background:rgba(0,229,255,.12);color:var(--cyan);border:1px solid rgba(0,229,255,.45)}
+.vplayer{font-family:var(--display);font-size:clamp(24px,6.5vw,36px);text-transform:uppercase;line-height:1}
+.vmove{color:var(--muted);font-size:13.5px;margin-top:8px}.vmove b{color:var(--text)}
+.vfeewrap{margin:18px 0 6px}
+.vfeelab{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.vfee{font-family:var(--display);font-size:clamp(34px,10vw,56px);line-height:1;margin-top:4px}
+.vfee .yr{color:var(--muted);font-size:16px;font-family:var(--body);font-weight:700}
+.vnote{font-size:12px;color:var(--muted);margin-top:6px}
+.vq{text-align:center;font-family:var(--display);font-size:clamp(18px,4.6vw,24px);text-transform:uppercase;line-height:1.15;margin:22px 0 6px}
+.vq .em{color:var(--pink)}
+.guesswrap{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:10px}
+.guessval{text-align:center;font-family:var(--display);font-size:clamp(32px,9vw,46px);color:var(--gold);line-height:1}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:6px;background:linear-gradient(90deg,var(--cyan),var(--pink));outline:none;margin:18px 0 4px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--pink);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--pink);cursor:pointer}
+.scaleends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:700}
+.reveal{margin-top:16px;animation:fade .3s}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.scoreband{text-align:center;border-radius:14px;padding:16px;margin-bottom:14px;border:1px solid var(--line)}
+.scoreband .verdict{font-family:var(--display);font-size:24px;text-transform:uppercase}
+.scoreband .pts{font-size:13px;color:var(--muted);margin-top:4px;font-weight:700}
+.scoreband.gd{background:linear-gradient(160deg,rgba(0,229,255,.16),transparent);border-color:var(--cyan)}
+.scoreband.ok{background:linear-gradient(160deg,rgba(232,181,58,.14),transparent);border-color:var(--gold)}
+.scoreband.bd{background:linear-gradient(160deg,rgba(255,45,149,.14),transparent);border-color:var(--pink)}
+.bars{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.bar{margin-bottom:14px}.bar:last-child{margin-bottom:0}
+.barlab{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px}
+.barlab .nm{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.barlab .vv{font-family:var(--display);font-size:18px}
+.track{height:16px;background:#0c0717;border-radius:8px;overflow:hidden}
+.fill{height:100%;border-radius:8px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.fill.cpi{background:linear-gradient(90deg,#0090a8,var(--cyan))}
+.fill.fb{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.barlab .cpi-c{color:var(--cyan)}.barlab .fb-c{color:var(--pink)}
+.gap{text-align:center;font-size:12.5px;color:var(--text);margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.gap b{color:var(--pink)}
+.yourguess{text-align:center;font-size:13px;color:var(--muted);margin-bottom:14px}.yourguess b{color:var(--text)}
+.explain{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 16px;font-size:13.5px;line-height:1.6;color:var(--muted)}
+.explain b{color:var(--text)}.explain .lesson{color:var(--pink)}
+.mathline{font-size:12px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--line);line-height:1.7}
+.mathline code{color:var(--text);font-weight:700}
+.bigscore{font-family:var(--display);font-size:clamp(60px,18vw,110px);text-align:center;line-height:1;background:linear-gradient(135deg,var(--pink),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tier{text-align:center;font-family:var(--display);font-size:clamp(22px,6vw,32px);text-transform:uppercase;margin:6px 0 4px}
+.summ{display:grid;gap:8px;margin:20px 0}
+.summ .s{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px}
+.summ .s .nm{font-weight:700}.summ .s .nm small{color:var(--muted);font-weight:400}
+.summ .s .pt{font-family:var(--display);font-size:16px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="../" style="display:inline-flex;align-items:center;gap:4px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--cyan);border:1px solid rgba(0,229,255,.5);border-radius:999px;padding:5px 11px;white-space:nowrap">↑ Spin It</a>
+    <a href="index.html" class="mark" style="text-decoration:none;color:var(--text)">Drop <span style="background:linear-gradient(135deg,var(--pink),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent">It</span></a>
+  </div>
+  <div class="strap">What's the ticket?</div>
+  <button class="pill" onclick="location.reload()">↻ Restart</button>
+</div>
+
+<div class="wrap">
+
+<section class="screen show" id="wIntro">
+  <h1 class="screen-title">What's the <span class="hl">Ticket?</span></h1>
+  <p class="sub">A gig ticket is just the <b>nominal</b> price at the time. To compare eras you strip inflation out — but live music has <b>two</b> inflations: general prices (CPI), and the concert market's own, far steeper one.</p>
+  <div class="how">
+    <div class="row"><div class="n">1</div><div class="tx">You'll see a <b>real gig</b> — act, venue and the ticket price at the time.</div></div>
+    <div class="row"><div class="n">2</div><div class="tx">Guess what it'd cost in <b>today's live-music market</b> (for a classic), or in an <b>earlier era's</b> (for a modern tour — yes, Taylor Swift in the '60s).</div></div>
+    <div class="row"><div class="n">3</div><div class="tx">The reveal shows that <b>and</b> the plain-CPI figure side by side — so you can see how far <b>gig prices have outrun shop prices</b>.</div></div>
+  </div>
+  <button class="cta" id="wStart">🎟️&nbsp; Start pricing</button>
+  <p class="basis"><b>CPI</b> = UK long-run inflation (ONS composite price index — used for spans reaching before headline CPI began in 1988). <b>Live-music index</b> = the Glastonbury weekend ticket, a 55-year barometer of gig prices (£1 in 1970 → £373.50 in 2025). Ticket prices are representative face values as reported.</p>
+  <div class="backlink"><a href="index.html">← Back to Drop It</a></div>
+</section>
+
+<section class="screen" id="wPlay">
+  <div class="hud">
+    <span class="rd" id="wRound">Round 1 / 7</span>
+    <div class="pips" id="wPips"></div>
+    <span class="sc" id="wScore">0 pts</span>
+  </div>
+  <div class="vcard" id="wCard">
+    <span class="vtag" id="wTag">Classic</span>
+    <div class="vplayer" id="wPlayer">—</div>
+    <div class="vmove" id="wMove">—</div>
+    <div class="vfeewrap"><div class="vfeelab">Ticket price</div><div class="vfee" id="wFee">—</div><div class="vnote" id="wNote"></div></div>
+  </div>
+  <div id="wAsk">
+    <div class="vq" id="wQ">—</div>
+    <div class="guesswrap">
+      <div class="guessval" id="wGuess">£25</div>
+      <input type="range" id="wSlider" min="0" max="1000" value="500" step="1">
+      <div class="scaleends"><span>10p</span><span>£500</span></div>
+    </div>
+    <button class="cta" id="wLock" style="margin-top:14px">Lock in this price</button>
+  </div>
+  <div class="reveal" id="wReveal" style="display:none">
+    <div class="scoreband" id="wBand"><div class="verdict" id="wVerdict">—</div><div class="pts" id="wPts">—</div></div>
+    <div class="yourguess">Your price: <b id="wYour">—</b></div>
+    <div class="bars">
+      <div class="bar"><div class="barlab"><span class="nm">General inflation · CPI</span><span class="vv cpi-c" id="cpiVal">—</span></div><div class="track"><div class="fill cpi" id="barCpi"></div></div></div>
+      <div class="bar"><div class="barlab"><span class="nm" id="fbLab">Live-music market</span><span class="vv fb-c" id="fbVal">—</span></div><div class="track"><div class="fill fb" id="barFb"></div></div></div>
+      <div class="gap" id="wGap"></div>
+    </div>
+    <div class="explain" id="wExplain"></div>
+    <button class="cta" id="wNext" style="margin-top:14px">Next →</button>
+  </div>
+</section>
+
+<section class="screen" id="wEnd">
+  <h1 class="screen-title">Final <span class="hl">price check</span></h1>
+  <div class="bigscore" id="wEndPct">0%</div>
+  <div class="tier" id="wTier">—</div>
+  <p class="sub" id="wTierNote"></p>
+  <div class="summ" id="wSumm"></div>
+  <button class="cta" id="wAgain">Play again</button>
+  <button class="ghost" id="wBackHome2" onclick="location.href='index.html'">← Back to Drop It</button>
+</section>
+
+</div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("show"));$("#"+id).classList.add("show");window.scrollTo(0,0);}
+
+/* UK long-run inflation: ONS composite price index (£100-in-1751 basis). mult = PV[to]/PV[from]. */
+const PV={1963:1080,1965:1168,1970:1462,1984:7036,1996:12048,2003:14304,2024:28169.13,2025:29084.71,2026:29356.37};
+/* Live-music index: Glastonbury weekend ticket (£). Today (2026) uses 2025's £373.50. */
+const GI={1963:0.7,1965:0.8,1970:1,1984:13,1996:70,2003:105,2024:355,2025:373.5,2026:373.5};
+const NOW=2026;
+function cpiV(p,from,to){return p*PV[to]/PV[from];}
+function fbV(p,from,to){return p*GI[to]/GI[from];}
+
+const CARDS=[
+  // CLASSICS — guess price in TODAY's live-music market
+  {p:"The Beatles",f:"The Cavern Club",y:1963,fee:0.48,note:"9 shillings 6 pence",dir:"legend"},
+  {p:"Glastonbury Festival",f:"Worthy Farm",y:1970,fee:1,note:"ticket included free milk",dir:"legend"},
+  {p:"Glastonbury Festival",f:"Worthy Farm",y:1984,fee:13,note:"the year the lasers arrived",dir:"legend"},
+  {p:"Oasis",f:"Knebworth Park",y:1996,fee:22.50,note:"biggest UK gig of the 90s",dir:"legend"},
+  {p:"Glastonbury Festival",f:"Worthy Farm",y:2003,fee:105,note:"first £100+ ticket",dir:"legend"},
+  // MODERN — guess price in an EARLIER era's market
+  {p:"Taylor Swift",f:"The Eras Tour",y:2024,fee:110,note:"general admission",dir:"modern",past:1965},
+  {p:"Oasis",f:"Live '25 Reunion",y:2025,fee:148,note:"standing, face value",dir:"modern",past:1996},
+  {p:"Glastonbury Festival",f:"Worthy Farm",y:2025,fee:373.50,note:"weekend ticket",dir:"modern",past:1970},
+];
+
+const ROUNDS=7;
+const W={deck:[],i:0,score:0,log:[],locked:false};
+function fmt(v){let x;if(v<2)x=Math.round(v*100)/100;else if(v<100)x=Math.round(v*10)/10;else x=Math.round(v);return "£"+x+(v<2&&x*100%10===0&&x<1?"0":"");}
+function sliderToVal(s){const lo=Math.log10(0.10),hi=Math.log10(500);return Math.pow(10,lo+(hi-lo)*s/1000);}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function buildDeck(){return shuffle(shuffle(CARDS.filter(c=>c.dir==="legend")).slice(0,4).concat(shuffle(CARDS.filter(c=>c.dir==="modern")).slice(0,3)));}
+
+$("#wStart").onclick=()=>{W.deck=buildDeck();W.i=0;W.score=0;W.log=[];renderRound();show("wPlay");};
+
+function valsFor(c){const to=c.dir==="legend"?NOW:c.past;return {cpi:cpiV(c.fee,c.y,to),fb:fbV(c.fee,c.y,to),to};}
+function renderRound(){
+  W.locked=false;const c=W.deck[W.i];
+  $("#wRound").textContent="Round "+(W.i+1)+" / "+ROUNDS;
+  $("#wScore").textContent=W.score+" pts";
+  const pips=$("#wPips");pips.innerHTML="";
+  for(let k=0;k<ROUNDS;k++){const s=document.createElement("span");s.className="pip"+(k<W.i?" done":(k===W.i?" live":""));pips.appendChild(s);}
+  $("#wCard").className="vcard "+c.dir;
+  const tag=$("#wTag");tag.className="vtag "+c.dir;tag.textContent=c.dir==="legend"?"Classic":"Modern";
+  $("#wPlayer").textContent=c.p;
+  $("#wMove").innerHTML="<b>"+c.f+"</b>";
+  $("#wFee").innerHTML=fmt(c.fee)+' <span class="yr">'+c.y+'</span>';
+  $("#wNote").textContent=c.note||"";
+  $("#wQ").innerHTML = c.dir==="legend"
+    ? 'What would that ticket cost in <span class="em">today\'s live-music market</span>?'
+    : 'In <span class="em">'+c.past+'\'s live-music market</span>, what would it cost?';
+  $("#wSlider").value=500;updateGuess();
+  $("#wAsk").style.display="";$("#wReveal").style.display="none";$("#wLock").disabled=false;
+}
+function updateGuess(){$("#wGuess").textContent=fmt(sliderToVal(+$("#wSlider").value));}
+$("#wSlider").addEventListener("input",updateGuess);
+function bandFor(e){
+  if(e<=0.05)return["Spot on! 🎯",100,"gd"];
+  if(e<=0.10)return["Bang on 🎟️",85,"gd"];
+  if(e<=0.20)return["Close 👍",65,"ok"];
+  if(e<=0.35)return["In the ballpark",40,"ok"];
+  if(e<=0.60)return["Off the mark",20,"bd"];
+  return["Way off",5,"bd"];
+}
+$("#wLock").onclick=()=>{
+  if(W.locked)return;W.locked=true;$("#wLock").disabled=true;
+  const c=W.deck[W.i];const v=valsFor(c);
+  const guess=sliderToVal(+$("#wSlider").value);
+  const target=v.fb;
+  const err=Math.abs(guess-target)/target;
+  const [verdict,pts,cls]=bandFor(err);
+  W.score+=pts;W.log.push({c,guess,target,pts});$("#wScore").textContent=W.score+" pts";
+  const band=$("#wBand");band.className="scoreband "+cls;
+  $("#wVerdict").textContent=verdict;
+  $("#wPts").textContent="+"+pts+" pts · "+Math.round((1-Math.min(1,err))*100)+"% accurate";
+  $("#wYour").textContent=fmt(guess);
+  $("#fbLab").textContent=c.dir==="legend"?"Live-music market — today":"Live-music market — "+c.past;
+  $("#cpiVal").textContent=fmt(v.cpi);$("#fbVal").textContent=fmt(v.fb);
+  const mx=Math.max(v.cpi,v.fb,guess);
+  setTimeout(()=>{$("#barCpi").style.width=(v.cpi/mx*100)+"%";$("#barFb").style.width=(v.fb/mx*100)+"%";},60);
+  let gap,html,math;
+  if(c.dir==="legend"){
+    gap='Live-music inflation makes it about <b>'+(v.fb/v.cpi).toFixed(1)+'×</b> the plain-CPI figure.';
+    html='General CPI inflation alone would lift <b>'+fmt(c.fee)+'</b> ('+c.y+') to just <b>'+fmt(v.cpi)+'</b>. '
+      +'<span class="lesson">Live music has its own, far steeper inflation</span> — streaming gutted record sales, so artists now lean on touring, and dynamic pricing pushes the top end higher still. A Glastonbury weekend went from £1 (1970) to £373.50 (2025).';
+  } else {
+    gap='In '+c.past+'\'s market it\'s only about <b>'+(v.fb/v.cpi).toFixed(2)+'×</b> the plain-CPI figure.';
+    html='By general CPI, <b>'+fmt(c.fee)+'</b> ('+c.y+') is <b>'+fmt(v.cpi)+'</b> in '+c.past+' money. '
+      +'But in '+c.past+'\'s <b>live-music market</b> it\'s only about <b>'+fmt(v.fb)+'</b> — for scale, a Glastonbury weekend in '+c.past+' cost £'+GI[c.past]+'. '
+      +'<span class="lesson">Gig prices have inflated so much faster than shop prices</span> that stripped back, the ticket is worth far less than CPI suggests.';
+  }
+  math='<div class="mathline">CPI: <code>'+fmt(c.fee)+' × (idx '+v.to+' ÷ idx '+c.y+') = '+fmt(v.cpi)+'</code><br>'
+      +'Live music: <code>'+fmt(c.fee)+' × (Glasto '+v.to+' £'+GI[v.to]+' ÷ Glasto '+c.y+' £'+GI[c.y]+') = '+fmt(v.fb)+'</code></div>';
+  $("#wGap").innerHTML=gap;$("#wExplain").innerHTML=html+math;
+  $("#wAsk").style.display="none";$("#wReveal").style.display="";
+  $("#wNext").textContent=(W.i>=ROUNDS-1)?"See your final score →":"Next →";
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+$("#wNext").onclick=()=>{W.i++;if(W.i>=ROUNDS)endGame();else renderRound();};
+function endGame(){
+  const pct=Math.round(W.score/(ROUNDS*100)*100);
+  $("#wEndPct").textContent=pct+"%";
+  let tier,note;
+  if(pct>=85){tier="Festival Promoter 🎪";note="Elite. You read both inflations across every era.";}
+  else if(pct>=70){tier="Tour Manager";note="Sharp — you know market price from a shop-price figure.";}
+  else if(pct>=50){tier="Box Office";note="Solid instincts. A few more reps and you'll nail it.";}
+  else if(pct>=30){tier="Roadie";note="Getting there — watch how gigs outrun CPI each time.";}
+  else{tier="Queueing at the back";note="Tricky. Replay and watch the two bars on every reveal.";}
+  $("#wTier").textContent=tier;$("#wTierNote").textContent=note;
+  const summ=$("#wSumm");summ.innerHTML="";
+  W.log.forEach(r=>{const el=document.createElement("div");el.className="s";
+    el.innerHTML='<div class="nm">'+r.c.p+' <small>'+(r.c.dir==="legend"?"→ today":("→ "+r.c.past))+'</small></div><div class="pt">+'+r.pts+'</div>';summ.appendChild(el);});
+  show("wEnd");
+}
+$("#wAgain").onclick=()=>{W.deck=buildDeck();W.i=0;W.score=0;W.log=[];renderRound();show("wPlay");};
+</script>
+</body>
+</html>
