@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHAT'S HE WORTH? — Lift It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#07090d;--surface:#10141c;--surface-2:#161b26;--line:rgba(255,255,255,.08);
+  --text:#f4f6f8;--muted:#8b94a3;--red:#d62f3e;--green:#1ea24f;--blue:#1f7fd1;--gold:#e8b53a;
+  --radius:14px;--display:'Anton',sans-serif;--body:'Space Grotesk',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--pitch);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
+button{font-family:var(--body)}
+.screen{display:none}.screen.show{display:block}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:34px 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.mark{font-family:var(--display);font-size:22px;text-transform:uppercase}
+.strap{color:var(--muted);font-size:13px;flex:1;text-align:center}
+@media (max-width:640px){.strap{display:none}}
+.pill{background:var(--surface);border:1px solid var(--line);color:var(--text);font-weight:700;font-size:13px;padding:9px 16px;border-radius:999px;cursor:pointer}
+.pill:hover{border-color:var(--muted)}
+.cta{display:block;width:100%;border:none;border-radius:var(--radius);padding:18px;cursor:pointer;font-family:var(--display);font-size:20px;letter-spacing:.13em;text-transform:uppercase;color:#fff;background:linear-gradient(100deg,var(--red),var(--blue) 52%,var(--green));background-size:160% 100%;transition:background-position .35s,transform .1s}
+.cta:hover:not(:disabled){background-position:100% 0}.cta:active:not(:disabled){transform:scale(.99)}
+.cta:disabled{opacity:.4;cursor:not-allowed}
+.ghost{display:block;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:var(--radius);padding:14px;cursor:pointer;font-family:var(--display);font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin-top:12px}
+.ghost:hover{border-color:var(--gold)}
+h1.screen-title{font-family:var(--display);font-size:clamp(30px,7vw,46px);text-transform:uppercase;text-align:center;letter-spacing:.02em;margin-bottom:8px;line-height:.95}
+h1 .hl{background:linear-gradient(135deg,var(--gold),#f3d27a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{text-align:center;color:var(--muted);font-size:14.5px;line-height:1.6;max-width:500px;margin:0 auto}
+.backlink{text-align:center;margin-top:22px}
+.backlink a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:8px 16px}
+.backlink a:hover{color:var(--text);border-color:var(--gold)}
+.how{display:grid;gap:10px;margin:24px 0}
+.how .row{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.how .n{font-family:var(--display);color:var(--gold);font-size:20px;line-height:1;flex-shrink:0;width:22px;text-align:center}
+.how .tx{font-size:13.5px;color:var(--text);line-height:1.5}.how .tx b{color:var(--gold)}
+.basis{text-align:center;font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.55}
+
+.hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hud .rd{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pips{display:flex;gap:6px}.pip{width:9px;height:9px;border-radius:50%;background:#26303f}
+.pip.done{background:var(--gold)}.pip.live{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.15)}
+.hud .sc{font-size:13px;font-weight:700;color:var(--gold)}
+.vcard{background:linear-gradient(165deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:18px;padding:22px 18px;text-align:center;overflow:hidden}
+.vcard.legend{border-color:rgba(232,181,58,.5)}.vcard.modern{border-color:rgba(31,127,209,.5)}
+.vtag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.vtag.legend{background:rgba(232,181,58,.14);color:var(--gold);border:1px solid rgba(232,181,58,.5)}
+.vtag.modern{background:rgba(31,127,209,.14);color:#6fb4f0;border:1px solid rgba(31,127,209,.5)}
+.vplayer{font-family:var(--display);font-size:clamp(26px,7vw,38px);text-transform:uppercase;line-height:1}
+.vmove{color:var(--muted);font-size:13.5px;margin-top:8px}.vmove b{color:var(--text)}
+.vfeewrap{margin:18px 0 6px}
+.vfeelab{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.vfee{font-family:var(--display);font-size:clamp(34px,10vw,56px);line-height:1;margin-top:4px}
+.vfee .yr{color:var(--muted);font-size:16px;font-family:var(--body);font-weight:700}
+.vnote{font-size:12px;color:var(--muted);margin-top:6px}
+.vq{text-align:center;font-family:var(--display);font-size:clamp(18px,4.6vw,24px);text-transform:uppercase;line-height:1.15;margin:22px 0 6px}
+.vq .em{color:var(--gold)}
+.guesswrap{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:10px}
+.guessval{text-align:center;font-family:var(--display);font-size:clamp(32px,9vw,46px);color:var(--gold);line-height:1}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:6px;background:linear-gradient(90deg,var(--blue),var(--gold));outline:none;margin:18px 0 4px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer}
+.scaleends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:700}
+.reveal{margin-top:16px;animation:fade .3s}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.scoreband{text-align:center;border-radius:14px;padding:16px;margin-bottom:14px;border:1px solid var(--line)}
+.scoreband .verdict{font-family:var(--display);font-size:24px;text-transform:uppercase}
+.scoreband .pts{font-size:13px;color:var(--muted);margin-top:4px;font-weight:700}
+.scoreband.gd{background:linear-gradient(160deg,rgba(30,162,79,.16),transparent);border-color:var(--green)}
+.scoreband.ok{background:linear-gradient(160deg,rgba(232,181,58,.14),transparent);border-color:var(--gold)}
+.scoreband.bd{background:linear-gradient(160deg,rgba(214,47,62,.14),transparent);border-color:var(--red)}
+.bars{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.bar{margin-bottom:14px}.bar:last-child{margin-bottom:0}
+.barlab{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px}
+.barlab .nm{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.barlab .vv{font-family:var(--display);font-size:18px}
+.track{height:16px;background:#0c1017;border-radius:8px;overflow:hidden}
+.fill{height:100%;border-radius:8px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.fill.cpi{background:linear-gradient(90deg,#1f7fd1,#5aa6e6)}
+.fill.fb{background:linear-gradient(90deg,var(--gold),#f3d27a)}
+.barlab .cpi-c{color:#6fb4f0}.barlab .fb-c{color:var(--gold)}
+.gap{text-align:center;font-size:12.5px;color:var(--text);margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.gap b{color:var(--gold)}
+.yourguess{text-align:center;font-size:13px;color:var(--muted);margin-bottom:14px}.yourguess b{color:var(--text)}
+.explain{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 16px;font-size:13.5px;line-height:1.6;color:var(--muted)}
+.explain b{color:var(--text)}.explain .lesson{color:var(--gold)}
+.mathline{font-size:12px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--line);line-height:1.7}
+.mathline code{color:var(--text);font-weight:700}
+.bigscore{font-family:var(--display);font-size:clamp(60px,18vw,110px);text-align:center;line-height:1;background:linear-gradient(135deg,var(--gold),#f3d27a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tier{text-align:center;font-family:var(--display);font-size:clamp(22px,6vw,32px);text-transform:uppercase;margin:6px 0 4px}
+.summ{display:grid;gap:8px;margin:20px 0}
+.summ .s{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px}
+.summ .s .nm{font-weight:700}.summ .s .nm small{color:var(--muted);font-weight:400}
+.summ .s .pt{font-family:var(--display);font-size:16px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="../" style="display:inline-flex;align-items:center;gap:4px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:#e8b53a;border:1px solid rgba(232,181,58,.6);border-radius:999px;padding:5px 11px;white-space:nowrap">↑ Spin It</a>
+    <a href="index.html" class="mark" style="text-decoration:none;color:var(--text)">Lift <span style="background:linear-gradient(135deg,var(--red),var(--blue) 55%,var(--green));-webkit-background-clip:text;background-clip:text;color:transparent">It</span></a>
+  </div>
+  <div class="strap">What's he worth today?</div>
+  <button class="pill" onclick="location.reload()">↻ Restart</button>
+</div>
+
+<div class="wrap">
+
+<section class="screen show" id="wIntro">
+  <h1 class="screen-title">What's He <span class="hl">Worth?</span></h1>
+  <p class="sub">A transfer fee is just the <b>nominal</b> price at the time. To compare eras you strip inflation out — but football has <b>two</b> inflations: general prices (CPI), and the transfer market's own, much steeper inflation.</p>
+  <div class="how">
+    <div class="row"><div class="n">1</div><div class="tx">You'll see a <b>real transfer</b> — player, move and the fee in that year's money.</div></div>
+    <div class="row"><div class="n">2</div><div class="tx">Guess what he'd be worth in <b>today's transfer market</b> (for a legend), or in an <b>earlier era's market</b> (for a modern deal).</div></div>
+    <div class="row"><div class="n">3</div><div class="tx">The reveal shows the market value <b>and</b> the plain-CPI figure side by side — so you can see how far <b>football inflation outruns shop-price inflation</b>.</div></div>
+  </div>
+  <button class="cta" id="wStart">💷&nbsp; Start valuing</button>
+  <p class="basis"><b>CPI</b> = UK headline Consumer Prices Index (ONS — the Bank of England's target measure; RPI would read higher). <b>Football index</b> = the world-record fee of each era (today's record: Neymar, £200m, 2017). Transfer fees as reported at the time.</p>
+  <div class="backlink"><a href="index.html">← Back to Lift It</a></div>
+</section>
+
+<section class="screen" id="wPlay">
+  <div class="hud">
+    <span class="rd" id="wRound">Round 1 / 7</span>
+    <div class="pips" id="wPips"></div>
+    <span class="sc" id="wScore">0 pts</span>
+  </div>
+  <div class="vcard" id="wCard">
+    <span class="vtag" id="wTag">Legend</span>
+    <div class="vplayer" id="wPlayer">—</div>
+    <div class="vmove" id="wMove">—</div>
+    <div class="vfeewrap"><div class="vfeelab">Transfer fee</div><div class="vfee" id="wFee">—</div><div class="vnote" id="wNote"></div></div>
+  </div>
+  <div id="wAsk">
+    <div class="vq" id="wQ">—</div>
+    <div class="guesswrap">
+      <div class="guessval" id="wGuess">£25m</div>
+      <input type="range" id="wSlider" min="0" max="1000" value="500" step="1">
+      <div class="scaleends"><span>£1m</span><span>£280m</span></div>
+    </div>
+    <button class="cta" id="wLock" style="margin-top:14px">Lock in this valuation</button>
+  </div>
+  <div class="reveal" id="wReveal" style="display:none">
+    <div class="scoreband" id="wBand"><div class="verdict" id="wVerdict">—</div><div class="pts" id="wPts">—</div></div>
+    <div class="yourguess">Your valuation: <b id="wYour">—</b></div>
+    <div class="bars">
+      <div class="bar"><div class="barlab"><span class="nm">General inflation · CPI</span><span class="vv cpi-c" id="cpiVal">—</span></div><div class="track"><div class="fill cpi" id="barCpi"></div></div></div>
+      <div class="bar"><div class="barlab"><span class="nm" id="fbLab">Football transfer market</span><span class="vv fb-c" id="fbVal">—</span></div><div class="track"><div class="fill fb" id="barFb"></div></div></div>
+      <div class="gap" id="wGap"></div>
+    </div>
+    <div class="explain" id="wExplain"></div>
+    <button class="cta" id="wNext" style="margin-top:14px">Next →</button>
+  </div>
+</section>
+
+<section class="screen" id="wEnd">
+  <h1 class="screen-title">Final <span class="hl">valuation</span></h1>
+  <div class="bigscore" id="wEndPct">0%</div>
+  <div class="tier" id="wTier">—</div>
+  <p class="sub" id="wTierNote"></p>
+  <div class="summ" id="wSumm"></div>
+  <button class="cta" id="wAgain">Play again</button>
+  <button class="ghost" id="wBackHome2" onclick="location.href='index.html'">← Back to Lift It</button>
+</section>
+
+</div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("show"));$("#"+id).classList.add("show");window.scrollTo(0,0);}
+
+/* UK headline CPI, ONS (2015=100). 2026 = latest available (Apr 2026). */
+const CPI={1990:55.860,1992:62.601,1996:68.819,1997:70.074,2000:72.685,2001:73.582,2009:86.568,
+  2011:93.415,2013:98.521,2014:99.960,2016:100.660,2017:103.361,2018:105.922,2021:111.551,2023:130.550,2026:142.060};
+const NOW=2026;
+/* Football transfer index = prevailing WORLD-RECORD fee (£m). Today's record: Neymar £200m (2017, unbeaten). */
+const RECORD=[[1990,8],[1992,13],[1996,15],[1997,19.5],[1999,28],[2000,37],[2001,46],[2009,80],[2013,85],[2016,89],[2017,200]];
+function record(y){let r=RECORD[0][1];for(const pair of RECORD){if(y>=pair[0])r=pair[1];else break;}return r;}
+function cpiV(fee,from,to){return fee*CPI[to]/CPI[from];}
+function fbV(fee,from,to){return fee*record(to)/record(from);}
+
+const CARDS=[
+  // LEGENDS — guess value in TODAY's market. wr:true = was the world record (→ ~£200m today)
+  {p:"Roberto Baggio",f:"Fiorentina",t:"Juventus",y:1990,fee:8,note:"World-record fee",dir:"legend",wr:true},
+  {p:"Gianluigi Lentini",f:"Torino",t:"AC Milan",y:1992,fee:13,note:"World-record fee",dir:"legend",wr:true},
+  {p:"Alan Shearer",f:"Blackburn",t:"Newcastle",y:1996,fee:15,note:"World-record fee",dir:"legend",wr:true},
+  {p:"Ronaldo",f:"Barcelona",t:"Inter Milan",y:1997,fee:19.5,note:"World record · €28m",dir:"legend",wr:true},
+  {p:"Luís Figo",f:"Barcelona",t:"Real Madrid",y:2000,fee:37,note:"World-record fee",dir:"legend",wr:true},
+  {p:"Zinedine Zidane",f:"Juventus",t:"Real Madrid",y:2001,fee:46,note:"World record · €77.5m",dir:"legend",wr:true},
+  {p:"Kaká",f:"AC Milan",t:"Real Madrid",y:2009,fee:56,note:"€67m",dir:"legend",wr:false},
+  {p:"Cristiano Ronaldo",f:"Man Utd",t:"Real Madrid",y:2009,fee:80,note:"World record · €94m",dir:"legend",wr:true},
+  {p:"Fernando Torres",f:"Liverpool",t:"Chelsea",y:2011,fee:50,note:"British record",dir:"legend",wr:false},
+  {p:"James Rodríguez",f:"Monaco",t:"Real Madrid",y:2014,fee:63,note:"Post-World Cup move",dir:"legend",wr:false},
+  {p:"Gonzalo Higuaín",f:"Napoli",t:"Juventus",y:2016,fee:75.3,note:"Serie A record",dir:"legend",wr:false},
+  {p:"Gareth Bale",f:"Tottenham",t:"Real Madrid",y:2013,fee:85,note:"World record · €100m",dir:"legend",wr:true},
+  // MODERN — guess value in an EARLIER era's market
+  {p:"Paul Pogba",f:"Juventus",t:"Man Utd",y:2016,fee:89,note:"World record · €105m",dir:"modern",past:1990},
+  {p:"Neymar",f:"Barcelona",t:"PSG",y:2017,fee:200,note:"World record · €222m",dir:"modern",past:1992},
+  {p:"Kylian Mbappé",f:"Monaco",t:"PSG",y:2018,fee:166,note:"Most expensive teenager",dir:"modern",past:2001},
+  {p:"Jack Grealish",f:"Aston Villa",t:"Man City",y:2021,fee:100,note:"First £100m British player",dir:"modern",past:2000},
+  {p:"Enzo Fernández",f:"Benfica",t:"Chelsea",y:2023,fee:106.8,note:"British record",dir:"modern",past:1996},
+  {p:"Moisés Caicedo",f:"Brighton",t:"Chelsea",y:2023,fee:115,note:"British record",dir:"modern",past:2009},
+];
+
+const ROUNDS=7;
+const W={deck:[],i:0,score:0,log:[],locked:false};
+function fmt(v){const x=v>=100?Math.round(v):Math.round(v*10)/10;return "£"+x+"m";}
+function sliderToVal(s){const lo=Math.log10(1),hi=Math.log10(280);return Math.pow(10,lo+(hi-lo)*s/1000);}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function buildDeck(){return shuffle(shuffle(CARDS.filter(c=>c.dir==="legend")).slice(0,4).concat(shuffle(CARDS.filter(c=>c.dir==="modern")).slice(0,3)));}
+
+$("#wStart").onclick=()=>{W.deck=buildDeck();W.i=0;W.score=0;W.log=[];renderRound();show("wPlay");};
+
+function valsFor(c){
+  const to = c.dir==="legend" ? NOW : c.past;
+  return {cpi:cpiV(c.fee,c.y,to), fb:fbV(c.fee,c.y,to), to};
+}
+function renderRound(){
+  W.locked=false;const c=W.deck[W.i];
+  $("#wRound").textContent="Round "+(W.i+1)+" / "+ROUNDS;
+  $("#wScore").textContent=W.score+" pts";
+  const pips=$("#wPips");pips.innerHTML="";
+  for(let k=0;k<ROUNDS;k++){const s=document.createElement("span");s.className="pip"+(k<W.i?" done":(k===W.i?" live":""));pips.appendChild(s);}
+  $("#wCard").className="vcard "+c.dir;
+  const tag=$("#wTag");tag.className="vtag "+c.dir;tag.textContent=c.dir==="legend"?"Legend":"Modern";
+  $("#wPlayer").textContent=c.p;
+  $("#wMove").innerHTML="<b>"+c.f+"</b> → <b>"+c.t+"</b>";
+  $("#wFee").innerHTML=fmt(c.fee)+' <span class="yr">'+c.y+'</span>';
+  $("#wNote").textContent=c.note||"";
+  $("#wQ").innerHTML = c.dir==="legend"
+    ? 'What\'s he worth in <span class="em">today\'s transfer market</span>?'
+    : 'In <span class="em">'+c.past+'\'s transfer market</span>, what would that be?';
+  $("#wSlider").value=500;updateGuess();
+  $("#wAsk").style.display="";$("#wReveal").style.display="none";$("#wLock").disabled=false;
+}
+function updateGuess(){$("#wGuess").textContent=fmt(sliderToVal(+$("#wSlider").value));}
+$("#wSlider").addEventListener("input",updateGuess);
+function bandFor(e){
+  if(e<=0.05)return["Spot on! 🎯",100,"gd"];
+  if(e<=0.10)return["Bang on the money 💷",85,"gd"];
+  if(e<=0.20)return["Close 👍",65,"ok"];
+  if(e<=0.35)return["In the ballpark",40,"ok"];
+  if(e<=0.60)return["Off the mark",20,"bd"];
+  return["Way off",5,"bd"];
+}
+$("#wLock").onclick=()=>{
+  if(W.locked)return;W.locked=true;$("#wLock").disabled=true;
+  const c=W.deck[W.i];const v=valsFor(c);
+  const guess=sliderToVal(+$("#wSlider").value);
+  const target=v.fb; // scored on the FOOTBALL market value
+  const err=Math.abs(guess-target)/target;
+  const [verdict,pts,cls]=bandFor(err);
+  W.score+=pts;W.log.push({c,guess,target,pts});$("#wScore").textContent=W.score+" pts";
+  const band=$("#wBand");band.className="scoreband "+cls;
+  $("#wVerdict").textContent=verdict;
+  $("#wPts").textContent="+"+pts+" pts · "+Math.round((1-Math.min(1,err))*100)+"% accurate";
+  $("#wYour").textContent=fmt(guess);
+  // bars
+  $("#fbLab").textContent = c.dir==="legend" ? "Football market — today" : "Football market — "+c.past;
+  $("#cpiVal").textContent=fmt(v.cpi);$("#fbVal").textContent=fmt(v.fb);
+  const mx=Math.max(v.cpi,v.fb,guess);
+  setTimeout(()=>{$("#barCpi").style.width=(v.cpi/mx*100)+"%";$("#barFb").style.width=(v.fb/mx*100)+"%";},60);
+  // gap line + explanation
+  let gap,html,math;
+  if(c.dir==="legend"){
+    const mult=(v.fb/v.cpi);
+    gap='Football inflation makes him worth about <b>'+mult.toFixed(1)+'×</b> the plain-CPI figure.';
+    html=(c.wr?'<b>He was the world-record signing of his day</b> — and today\'s record is £200m, so in the market he\'s worth about that now. ':'')
+      +'General CPI inflation alone would only lift <b>'+fmt(c.fee)+'</b> ('+c.y+') to <b>'+fmt(v.cpi)+'</b>. '
+      +'<span class="lesson">Football has its own, far steeper inflation</span> — transfer fees rose ~11% a year in the boom decades versus CPI\'s ~3%, so the market value runs well ahead of shop prices.';
+  } else {
+    gap='In '+c.past+'\'s market it\'s worth only about <b>'+(v.fb/v.cpi).toFixed(2)+'×</b> the plain-CPI figure.';
+    html='By general CPI, <b>'+fmt(c.fee)+'</b> ('+c.y+') is <b>'+fmt(v.cpi)+'</b> in '+c.past+' money. '
+      +'But in '+c.past+'\'s <b>transfer market</b> it\'s only about <b>'+fmt(v.fb)+'</b> — for scale, the world record in '+c.past+' was £'+record(c.past)+'m. '
+      +'<span class="lesson">Football money has inflated so much faster than prices</span> that stripping it back leaves far less than CPI suggests.';
+  }
+  math='<div class="mathline">CPI: <code>'+fmt(c.fee)+' × ('+CPI[v.to].toFixed(1)+' ÷ '+CPI[c.y].toFixed(1)+') = '+fmt(v.cpi)+'</code><br>'
+      +'Football: <code>'+fmt(c.fee)+' × (record '+v.to+' £'+record(v.to)+'m ÷ record '+c.y+' £'+record(c.y)+'m) = '+fmt(v.fb)+'</code></div>';
+  $("#wGap").innerHTML=gap;
+  $("#wExplain").innerHTML=html+math;
+  $("#wAsk").style.display="none";$("#wReveal").style.display="";
+  $("#wNext").textContent=(W.i>=ROUNDS-1)?"See your final valuation →":"Next →";
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+$("#wNext").onclick=()=>{W.i++;if(W.i>=ROUNDS)endGame();else renderRound();};
+function endGame(){
+  const pct=Math.round(W.score/(ROUNDS*100)*100);
+  $("#wEndPct").textContent=pct+"%";
+  let tier,note;
+  if(pct>=85){tier="Director of Football 🏆";note="Elite. You read both inflations across every era.";}
+  else if(pct>=70){tier="Chief Scout";note="Sharp — you know market value from a shop-price figure.";}
+  else if(pct>=50){tier="Talent Spotter";note="Solid instincts. A few more reps and you'll nail it.";}
+  else if(pct>=30){tier="Work Experience";note="Getting there — watch how football outruns CPI each time.";}
+  else{tier="Back to the academy";note="Tricky. Replay and watch the two bars on every reveal.";}
+  $("#wTier").textContent=tier;$("#wTierNote").textContent=note;
+  const summ=$("#wSumm");summ.innerHTML="";
+  W.log.forEach(r=>{const el=document.createElement("div");el.className="s";
+    el.innerHTML='<div class="nm">'+r.c.p+' <small>'+(r.c.dir==="legend"?"→ today":("→ "+r.c.past))+'</small></div><div class="pt">+'+r.pts+'</div>';summ.appendChild(el);});
+  show("wEnd");
+}
+$("#wAgain").onclick=()=>{W.deck=buildDeck();W.i=0;W.score=0;W.log=[];renderRound();show("wPlay");};
+</script>
+</body>
+</html>
