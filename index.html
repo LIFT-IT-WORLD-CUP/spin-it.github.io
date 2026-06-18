@@ -53,13 +53,9 @@ body{background:
 .drop .name{background:linear-gradient(120deg,var(--dropA),var(--dropB) 52%,var(--dropC));-webkit-background-clip:text;background-clip:text;color:transparent}
 .drop .enter{background:linear-gradient(100deg,var(--dropA),var(--dropB) 52%,var(--dropC))}
 
-/* Roll It skin (coming soon) */
-.roll{cursor:not-allowed}
+/* Roll It skin */
 .roll .accent{background:linear-gradient(90deg,var(--rollA),var(--rollB),var(--rollC))}
-.roll .name{background:linear-gradient(120deg,var(--rollA),var(--rollB) 55%,var(--rollC));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.85}
-.roll .emb{opacity:.85}
-.roll .soon{margin-top:18px;font-family:var(--display);font-size:14px;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;border-radius:11px;
-  color:var(--rollA);border:1px solid var(--rollA);background:rgba(232,133,58,.08)}
+.roll .name{background:linear-gradient(120deg,var(--rollA),var(--rollB) 55%,var(--rollC));-webkit-background-clip:text;background-clip:text;color:transparent}
 .badge{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rollA);border:1px solid var(--rollA);border-radius:999px;padding:4px 9px}
 
 .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:auto;padding-top:42px;letter-spacing:.04em}
@@ -149,8 +145,7 @@ body{background:
     </a>
 
     <!-- ROLL IT -->
-    <div class="card roll" id="cardRoll">
-      <div class="badge">Coming soon</div>
+    <a class="card roll" id="cardRoll" href="#">
       <div class="accent"></div>
       <div class="emb"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="film reel">
   <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4cf63"/><stop offset="0.6" stop-color="#e8853a"/><stop offset="1" stop-color="#c0392b"/></linearGradient></defs>
@@ -161,9 +156,9 @@ body{background:
 </svg></div>
       <div class="name">Roll It</div>
       <div class="cat">Film</div>
-      <div class="desc">Cast the perfect film and build your dream watchlist. In the works.</div>
-      <div class="soon">Soon</div>
-    </div>
+      <div class="desc">Cast your dream film, rank a genre's greatest, and pit films head-to-head.</div>
+      <div class="enter" style="background:linear-gradient(100deg,var(--rollA),var(--rollB) 55%,var(--rollC));color:#1a1208">Play →</div>
+    </a>
   </div>
 
   <div class="foot">
@@ -180,15 +175,17 @@ body{background:
 /* ===== EDIT THESE LINKS to wherever you host each game ===== */
 var LINKS = {
   liftit: "lift-it/",     /* lift-it/index.html (the World Cup game) */
-  dropit: "drop-it/"      /* drop-it/index.html */
-  /* rollit: not built yet */
+  dropit: "drop-it/",     /* drop-it/index.html */
+  rollit: "roll-it/"      /* roll-it/index.html */
 };
 /* ========================================================== */
 (function(){
   var L=document.getElementById('cardLift');
   var D=document.getElementById('cardDrop');
+  var R=document.getElementById('cardRoll');
   if(LINKS.liftit) L.setAttribute('href',LINKS.liftit); else L.removeAttribute('href');
   if(LINKS.dropit) D.setAttribute('href',LINKS.dropit); else D.removeAttribute('href');
+  if(R){ if(LINKS.rollit) R.setAttribute('href',LINKS.rollit); else R.removeAttribute('href'); }
 })();
 </script>
 </body>
