@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROLL IT — cast the perfect film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0a07;--surface:#1a140e;--surface-2:#231a11;--line:rgba(255,255,255,.09);
+  --text:#f5efe4;--muted:#9a9082;--gold:#f4cf63;--amber:#e8853a;--red:#c0392b;
+  --display:'Anton',sans-serif;--body:'Space Grotesk',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(125% 75% at 50% 0%,#2a1c0e,#0d0a07 62%);color:var(--text);font-family:var(--body);min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--display);letter-spacing:.34em;text-transform:uppercase;font-size:13px;color:var(--amber);cursor:pointer}
+.eyebrow:hover{opacity:.8}.eyebrow .d{color:var(--gold)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:5px 12px;cursor:pointer}
+.tag:hover{background:var(--gold);color:#1a1024}
+.wrap{max-width:760px;margin:0 auto;padding:30px 18px 80px}
+.screen{display:none}.screen.show{display:block}
+
+/* HOME */
+.hero{text-align:center;padding-top:8px}
+.reel{width:128px;margin:0 auto 8px;filter:drop-shadow(0 0 22px rgba(232,133,58,.4))}
+.reel.spin{animation:spin 1.1s cubic-bezier(.2,.7,.2,1)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(1440deg)}}
+.wordmark{font-family:var(--display);font-size:clamp(64px,16vw,118px);line-height:.88;text-transform:uppercase;letter-spacing:.01em}
+.wordmark .it{background:linear-gradient(135deg,var(--gold),var(--amber) 52%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{color:var(--muted);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:12.5px;margin-top:10px}
+.namebox{margin:26px auto 8px;max-width:340px}
+.field-label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;text-align:left}
+.name-input{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--text);font-family:var(--body);font-size:16px;font-weight:700}
+.name-input:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(232,133,58,.16)}
+.modes{display:flex;flex-direction:column;gap:11px;max-width:360px;margin:22px auto 0}
+.cta{display:block;width:100%;border:none;border-radius:14px;padding:17px;cursor:pointer;font-family:var(--display);font-size:19px;letter-spacing:.1em;text-transform:uppercase;color:#1a1208;background:linear-gradient(100deg,var(--gold),var(--amber) 55%,var(--red));background-size:170% 100%;transition:background-position .35s,transform .1s}
+.cta:hover{background-position:100% 0}.cta:active{transform:scale(.99)}
+
+/* shared build/list */
+.bhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.bhead .ttl{font-family:var(--display);font-size:22px;text-transform:uppercase}
+.bhead .btype{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted);margin-top:3px}
+.bhead .cnt{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.t{font-family:var(--display);text-transform:uppercase;text-align:center;line-height:.95}
+.sub{text-align:center;color:var(--muted);font-size:14px;line-height:1.55}
+.poslist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.posbtn{cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:14px;padding:18px 12px;text-align:center;transition:.14s;position:relative}
+.posbtn:hover{border-color:var(--amber);background:#241a11;transform:translateY(-2px)}
+.posbtn .nm{font-family:var(--display);text-transform:uppercase;letter-spacing:.02em;line-height:1.05}
+.posbtn .ct{font-size:11px;color:var(--gold);font-weight:700;margin-top:5px}
+.posbtn.typebtn .tdot{position:absolute;top:12px;right:12px;width:12px;height:12px;border-radius:50%}
+.posbtn.typebtn .temoji{font-size:26px;margin-bottom:4px}
+.posbtn.typebtn:hover{border-color:var(--tc)}
+.home{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.home:hover{color:var(--text);border-color:var(--amber)}
+.center{text-align:center;margin-top:20px}
+
+/* roles / slots */
+.stage{margin-bottom:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.stage .sh{display:flex;align-items:center;gap:8px;padding:11px 15px;background:linear-gradient(100deg,#2a1c0e,#1c140d);border-bottom:1px solid var(--line)}
+.stage .sh .nm{font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:.04em}
+.slot{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;padding:11px 15px;border-top:1px solid var(--line)}
+.slot:first-of-type{border-top:none}
+.slot .tslot .tier{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--text)}
+.slot .fill{min-height:30px;display:flex;align-items:center}
+.slot.empty .fill{color:var(--muted);font-size:13px;font-style:italic;opacity:.7}
+.slot .act{font-family:var(--display);font-size:clamp(16px,4.2vw,21px);text-transform:uppercase;line-height:1;letter-spacing:.01em}
+.slot.filled{background:linear-gradient(100deg,rgba(232,133,58,.07),transparent)}
+.slot.choosing{cursor:pointer;border:1px dashed var(--gold);border-radius:8px}
+.slot.choosing:hover{background:rgba(244,207,99,.08)}
+.slot.choosing .fill{color:var(--gold);font-style:normal;opacity:1;font-weight:700}
+.spinwrap{position:sticky;bottom:0;padding:16px 0 4px;background:linear-gradient(0deg,var(--bg) 70%,transparent)}
+.spinbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:none;border-radius:14px;padding:17px;cursor:pointer;font-family:var(--display);font-size:19px;letter-spacing:.12em;text-transform:uppercase;color:#1a1208;background:linear-gradient(100deg,var(--gold),var(--amber) 55%,var(--red));background-size:170% 100%;transition:background-position .35s,transform .1s}
+.spinbtn:hover{background-position:100% 0}.spinbtn:active{transform:scale(.99)}
+.spinbtn .mini{width:24px;height:24px}
+.ghost{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:14px;padding:13px;cursor:pointer;font-family:var(--display);font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin-top:14px}
+.ghost:hover{border-color:var(--amber)}
+.hint{text-align:center;font-size:13px;color:var(--muted);margin:14px 0 4px}
+
+/* overlay */
+.overlay{position:fixed;inset:0;background:rgba(6,4,2,.86);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;z-index:40}
+.overlay.show{display:flex}
+.sheet{background:var(--surface);border:1px solid var(--line);border-top-left-radius:20px;border-top-right-radius:20px;width:100%;max-width:760px;max-height:82vh;overflow-y:auto;padding:18px 16px 26px;animation:rise .25s}
+@keyframes rise{from{transform:translateY(40px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.sheet .landed{text-align:center;margin-bottom:6px}
+.sheet .landed .lab{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.sheet .landed .gn{font-family:var(--display);font-size:clamp(26px,7vw,40px);text-transform:uppercase;color:var(--amber);line-height:1;margin-top:4px}
+.sheet .pick-hint{text-align:center;font-size:13px;color:var(--muted);margin:12px 0}
+.actgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.actbtn{cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--text);border-radius:12px;padding:14px 10px;text-align:center;font-weight:700;font-size:14px;transition:.13s;line-height:1.15}
+.actbtn:hover{border-color:var(--amber);background:#2a1f14;transform:translateY(-2px)}
+.actbtn:disabled{opacity:.34;cursor:default;text-decoration:line-through}
+
+/* prog (top5/whosbetter) */
+.prog{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.prog .lab{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pips{display:flex;gap:6px}
+.pip{width:10px;height:10px;border-radius:50%;background:#3a2c1c}
+.pip.done{background:var(--amber)}
+.pip.live{background:var(--gold);box-shadow:0 0 0 3px rgba(244,207,99,.2)}
+.qtext{text-align:center;font-family:var(--display);font-size:clamp(22px,5vw,30px);text-transform:uppercase;letter-spacing:.02em;margin:2px 0 10px}
+.duel{display:grid;grid-template-columns:1fr;gap:12px}
+.vs{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px 0}
+.vs .line{height:1px;background:var(--line);flex:1}
+.vs .word{font-family:var(--display);font-size:18px;color:var(--gold);letter-spacing:.1em}
+.wbcard{cursor:pointer;border:1.5px solid var(--line);background:linear-gradient(160deg,var(--surface-2),var(--surface));border-radius:16px;padding:20px;text-align:center;transition:.14s}
+.wbcard:hover{border-color:var(--amber);transform:translateY(-2px)}
+.wbcard:active{transform:scale(.99)}
+.wbcard .role{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+.wbcard.champ .role{color:var(--gold)}.wbcard.chall .role{color:var(--amber)}
+.wbcard .alb{font-family:var(--display);font-size:clamp(20px,5vw,30px);text-transform:uppercase;line-height:1.05}
+.wbcard .meta{font-size:13px;color:var(--muted);margin-top:8px;font-weight:700}
+.wbcard .reign{margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);opacity:.9}
+.wbcard.flash{animation:wbflash .38s}
+@keyframes wbflash{0%{transform:scale(.96);opacity:.5}100%{transform:scale(1);opacity:1}}
+.crown2{text-align:center;border-radius:18px;padding:24px 18px;margin:6px 0 18px;background:linear-gradient(160deg,rgba(244,207,99,.14),transparent);border:1px solid var(--gold)}
+.crown2 .role{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.crown2 .alb{font-family:var(--display);font-size:clamp(24px,7vw,42px);text-transform:uppercase;line-height:1;margin-top:8px}
+.crown2 .meta{font-size:14px;color:var(--muted);font-weight:700;margin-top:10px}
+.crown2 .reign{margin-top:12px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);opacity:.85}
+.glhead2{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;text-align:center}
+.gl2{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 14px;opacity:.75;margin-bottom:8px}
+.gl2 .x{font-family:var(--display);font-size:16px;color:var(--muted);width:20px;text-align:center;flex-shrink:0}
+.gl2 .pn{font-weight:700;font-size:14px;flex:1;text-align:left}
+.gl2 .pm{font-size:11px;color:var(--muted);font-weight:700}
+
+/* poster / reveal */
+.poster{background:radial-gradient(120% 80% at 50% 0%,#2a1c0e,#0d0a07 70%);border:1px solid var(--line);border-radius:18px;padding:26px 18px;text-align:center;position:relative;overflow:hidden}
+.poster.themed{background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--theme) 22%,transparent),transparent 70%),linear-gradient(160deg,#1a140e,#0d0a07 75%);border-color:var(--theme)}
+.poster .pe{font-family:var(--display);letter-spacing:.3em;text-transform:uppercase;font-size:11px;color:var(--amber)}
+.poster .pn{font-family:var(--display);font-size:clamp(28px,8vw,50px);text-transform:uppercase;line-height:.92;margin:6px 0 2px;background:linear-gradient(135deg,var(--gold),var(--amber) 50%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+.poster.themed .pn{background:none;color:var(--theme);-webkit-text-fill-color:var(--theme)}
+.poster .pd{color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+.poster .prow{line-height:1.3}
+.poster .castrole{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.poster .castname{font-family:var(--display);text-transform:uppercase;font-size:clamp(18px,5vw,26px);margin-bottom:10px}
+.poster .h1act{font-family:var(--display);text-transform:uppercase;font-size:clamp(22px,6vw,34px)}
+.poster .h2act{font-family:var(--display);text-transform:uppercase;font-size:clamp(17px,4.6vw,24px);color:#e8e0d2}
+.poster .h3act{font-weight:700;font-size:15px;color:var(--muted)}
+.poster .dot{color:var(--amber);margin:0 7px}
+.verdict-q{text-align:center;font-family:var(--display);font-size:21px;text-transform:uppercase;margin:22px 0 14px}
+.vbtns{display:flex;gap:12px}
+.vbtns button{flex:1;cursor:pointer;border-radius:14px;padding:16px;font-family:var(--display);font-size:16px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:.15s}
+.vbtns .yes:hover{border-color:var(--gold);color:var(--gold)}
+.vbtns .no:hover{border-color:var(--red);color:var(--red)}
+.badge-line{text-align:center;border-radius:14px;padding:16px;margin:8px 0 16px;font-weight:700}
+.badge-line.happy{background:linear-gradient(160deg,rgba(244,207,99,.12),transparent);border:1px solid var(--gold);color:var(--gold)}
+.badge-line.meh{background:linear-gradient(160deg,rgba(192,57,43,.12),transparent);border:1px solid var(--red);color:#e8a59c}
+.badge-line .vt{font-family:var(--display);font-size:22px;text-transform:uppercase}
+.slot .orig{font-size:11px;color:var(--muted);text-decoration:line-through;opacity:.7;line-height:1.2}
+.slot .neu{font-family:var(--display);font-size:clamp(15px,4vw,20px);text-transform:uppercase;line-height:1;color:var(--gold)}
+.slot .keep{font-size:14px;font-weight:600;color:var(--text)}
+.poster .recastrow{line-height:1.25;margin-bottom:9px}
+.poster .rc-ch{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.poster .rc-new{font-family:var(--display);text-transform:uppercase;font-size:clamp(16px,4.4vw,22px)}
+.poster .rc-old{font-size:10.5px;color:var(--muted);text-decoration:line-through;opacity:.55}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="eyebrow" id="spinHome" title="Spin It home">Spin <span class="d">It</span></div>
+  <div class="tag" id="rollHome" title="Roll It home">Roll It</div>
+</div>
+<div class="wrap">
+
+<!-- HOME -->
+<section class="screen show" id="homeScreen">
+  <div class="hero">
+    <div class="reel" id="homeReel"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="film reel">
+  <defs><linearGradient id="rgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4cf63"/><stop offset="0.6" stop-color="#e8853a"/><stop offset="1" stop-color="#c0392b"/></linearGradient></defs>
+  <circle cx="60" cy="60" r="52" fill="url(#rgA)"/>
+  <circle cx="60" cy="60" r="52" fill="none" stroke="#1a1024" stroke-width="3"/>
+  <circle cx="60" cy="60" r="13" fill="#1a1024"/>
+  <circle cx="90.0" cy="60.0" r="9" fill="#1a1024"/><circle cx="75.0" cy="86.0" r="9" fill="#1a1024"/><circle cx="45.0" cy="86.0" r="9" fill="#1a1024"/><circle cx="30.0" cy="60.0" r="9" fill="#1a1024"/><circle cx="45.0" cy="34.0" r="9" fill="#1a1024"/><circle cx="75.0" cy="34.0" r="9" fill="#1a1024"/>
+</svg></div>
+    <div class="wordmark">Roll <span class="it">It</span></div>
+    <div class="sub">Cast the perfect film</div>
+    <div class="namebox">
+      <label class="field-label" for="filmName">Name your film</label>
+      <input id="filmName" class="name-input" type="text" maxlength="30" placeholder="e.g. The Last Spin" autocomplete="off">
+    </div>
+    <div class="modes">
+      <button class="cta" id="startCast">🎬&nbsp; Dream Cast</button>
+      <button class="cta" id="startRecast" style="background:linear-gradient(100deg,#7a2a20,var(--amber) 50%,var(--gold))">🔄&nbsp; Re-cast a Classic</button>
+      <button class="cta" id="startTop5" style="background:linear-gradient(100deg,var(--amber),var(--red) 60%,#7a2a20)">🏆&nbsp; Top 5 Films</button>
+      <button class="cta" id="startWB" style="background:linear-gradient(100deg,var(--red),var(--amber) 55%,var(--gold))">⚔️&nbsp; Which Film's Better?</button>
+      <a class="cta" id="startBoxOffice" href="boxoffice.html" style="display:block;text-align:center;text-decoration:none;background:linear-gradient(100deg,var(--gold),#7a5a18 55%,var(--amber))">💰&nbsp; Box Office</a>
+    </div>
+  </div>
+</section>
+
+<!-- DREAM CAST: pick genre -->
+<section class="screen" id="castGenreScreen">
+  <h1 class="t" style="font-size:clamp(28px,7vw,44px)">Pick your <span style="background:linear-gradient(135deg,var(--gold),var(--amber) 52%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent">genre</span></h1>
+  <p class="sub" style="margin:12px auto 22px;max-width:470px">Each genre gives you its own roles to cast — heist, rom-com, slasher and more. Then spin the talent pools and fill every part.</p>
+  <div class="poslist" id="castGenreList"></div>
+  <div class="center"><a class="home" href="#" id="castGenreHome">← Roll It home</a></div>
+</section>
+
+<!-- DREAM CAST: build -->
+<section class="screen" id="castScreen">
+  <div class="bhead">
+    <div><div class="ttl" id="castTitle">Your Film</div><div class="btype" id="castType"></div></div>
+    <div class="cnt" id="castCount">0 / 5 cast</div>
+  </div>
+  <div id="castRoles"></div>
+  <div class="spinwrap">
+    <button class="spinbtn" id="castSpinBtn"><span class="mini"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="film reel">
+  <defs><linearGradient id="rgB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4cf63"/><stop offset="0.6" stop-color="#e8853a"/><stop offset="1" stop-color="#c0392b"/></linearGradient></defs>
+  <circle cx="60" cy="60" r="52" fill="url(#rgB)"/>
+  <circle cx="60" cy="60" r="52" fill="none" stroke="#1a1024" stroke-width="3"/>
+  <circle cx="60" cy="60" r="13" fill="#1a1024"/>
+  <circle cx="90.0" cy="60.0" r="9" fill="#1a1024"/><circle cx="75.0" cy="86.0" r="9" fill="#1a1024"/><circle cx="45.0" cy="86.0" r="9" fill="#1a1024"/><circle cx="30.0" cy="60.0" r="9" fill="#1a1024"/><circle cx="45.0" cy="34.0" r="9" fill="#1a1024"/><circle cx="75.0" cy="34.0" r="9" fill="#1a1024"/>
+</svg></span> Spin for talent</button>
+    <button class="ghost" id="castQuit">↺ Different genre</button>
+  </div>
+</section>
+
+<!-- DREAM CAST: reveal -->
+<section class="screen" id="castRevealScreen">
+  <div class="poster" id="castPoster"></div>
+  <div class="verdict-q">Happy with your cast?</div>
+  <div class="vbtns">
+    <button class="yes" id="castYes">That's a hit ✓</button>
+    <button class="no" id="castNo">Recast…</button>
+  </div>
+  <div id="castAfter" style="display:none">
+    <div class="badge-line" id="castBadge"><div class="vt" id="castVText"></div><div id="castVSub" style="font-size:13px;margin-top:4px"></div></div>
+    <button class="cta" id="castAgain" style="margin-top:8px">Cast another film</button>
+    <div class="center"><a class="home" href="#" id="castBackHome">← Roll It home</a></div>
+  </div>
+</section>
+
+<!-- RE-CAST: pick film -->
+<section class="screen" id="recastPickScreen">
+  <h1 class="t" style="font-size:clamp(28px,7vw,44px)">Re-<span style="background:linear-gradient(135deg,var(--gold),var(--amber) 52%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent">cast</span> a classic</h1>
+  <p class="sub" style="margin:12px auto 22px;max-width:470px">Pick a film. You'll see its original cast — then spin the talent pool and replace every one of them with someone new. Your call who plays who.</p>
+  <div class="poslist" id="recastFilmList"></div>
+  <div class="center"><a class="home" href="#" id="recastPickHome">← Roll It home</a></div>
+</section>
+
+<!-- RE-CAST: board -->
+<section class="screen" id="recastScreen">
+  <div class="bhead">
+    <div><div class="ttl" id="recastTitle">Film</div><div class="btype" id="recastType"></div></div>
+    <div class="cnt" id="recastCount">0 / 10 recast</div>
+  </div>
+  <div id="recastRoles"></div>
+  <div class="spinwrap">
+    <button class="spinbtn" id="recastSpinBtn"><span class="mini"></span> Spin for a star</button>
+    <button class="ghost" id="recastQuit">↺ Different film</button>
+  </div>
+</section>
+
+<!-- RE-CAST: reveal -->
+<section class="screen" id="recastRevealScreen">
+  <div class="poster" id="recastPoster"></div>
+  <div class="verdict-q">Happy with your re-cast?</div>
+  <div class="vbtns">
+    <button class="yes" id="recastYes">Roll camera ✓</button>
+    <button class="no" id="recastNo">Re-do…</button>
+  </div>
+  <div id="recastAfter" style="display:none">
+    <div class="badge-line" id="recastBadge"><div class="vt" id="recastVText"></div><div id="recastVSub" style="font-size:13px;margin-top:4px"></div></div>
+    <button class="cta" id="recastAgain" style="margin-top:8px">Re-cast another film</button>
+    <div class="center"><a class="home" href="#" id="recastBackHome">← Roll It home</a></div>
+  </div>
+</section>
+
+<!-- TOP 5: pick genre -->
+<section class="screen" id="t5GenreScreen">
+  <h1 class="t" style="font-size:clamp(30px,7vw,46px)">Top <span style="background:linear-gradient(135deg,var(--gold),var(--amber) 55%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent">5 Films</span></h1>
+  <p class="sub" style="margin:12px auto 22px;max-width:460px">Pick a genre. Five films appear one at a time — slot each into your 1-to-5 ranking. Once placed it's locked.</p>
+  <div class="poslist" id="t5GenreList"></div>
+  <div class="center"><a class="home" href="#" id="t5GenreHome">← Roll It home</a></div>
+</section>
+
+<!-- TOP 5: rank -->
+<section class="screen" id="t5RankScreen">
+  <div class="prog"><span class="lab" id="t5GenreLabel">Genre</span><div class="pips" id="t5Pips"></div></div>
+  <div class="wbcard champ" id="t5CurCard" style="margin-bottom:16px">
+    <div class="role">Next film — where does it rank?</div>
+    <div class="alb" id="t5CurName">—</div>
+    <div class="meta" id="t5CurMeta"></div>
+  </div>
+  <div id="t5Slots"></div>
+  <p class="hint">Tap a rank to place this film.</p>
+  <button class="ghost" id="t5Restart">↺ Different genre</button>
+</section>
+
+<!-- TOP 5: reveal -->
+<section class="screen" id="t5RevealScreen">
+  <div class="poster" id="t5Poster"></div>
+  <div class="verdict-q">Happy with your Top 5?</div>
+  <div class="vbtns"><button class="yes" id="t5Yes">Nailed it ✓</button><button class="no" id="t5No">Hmm…</button></div>
+  <div id="t5After" style="display:none">
+    <div class="badge-line" id="t5Badge"><div class="vt" id="t5VText"></div><div id="t5VSub" style="font-size:13px;margin-top:4px"></div></div>
+    <button class="cta" id="t5Again" style="margin-top:8px">Rank another genre</button>
+    <div class="center"><a class="home" href="#" id="t5Home">← Roll It home</a></div>
+  </div>
+</section>
+
+<!-- WHO'S BETTER: pick genre -->
+<section class="screen" id="wbGenreScreen">
+  <h1 class="t" style="font-size:clamp(28px,7vw,44px)">Which film's <span style="background:linear-gradient(135deg,var(--red),var(--amber) 52%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent">better?</span></h1>
+  <p class="sub" style="margin:12px auto 22px;max-width:460px">Pick a genre. Five films go head-to-head — the one you rate higher stays on, the next challenges. Last one standing wins.</p>
+  <div class="poslist" id="wbGenreList"></div>
+  <div class="center"><a class="home" href="#" id="wbGenreHome">← Roll It home</a></div>
+</section>
+
+<!-- WHO'S BETTER: duel -->
+<section class="screen" id="wbDuelScreen">
+  <div class="prog"><span class="lab" id="wbGenreLabel">Genre</span><div class="pips" id="wbPips"></div></div>
+  <div class="qtext">Which is better?</div>
+  <div class="duel">
+    <div class="wbcard champ" id="wbChamp" role="button" tabindex="0">
+      <div class="role">On screen</div><div class="alb" id="wbChampAlb">—</div><div class="meta" id="wbChampMeta"></div><div class="reign" id="wbChampReign"></div>
+    </div>
+    <div class="vs"><span class="line"></span><span class="word">VS</span><span class="line"></span></div>
+    <div class="wbcard chall" id="wbChall" role="button" tabindex="0">
+      <div class="role">Challenger</div><div class="alb" id="wbChallAlb">—</div><div class="meta" id="wbChallMeta"></div><div class="reign"></div>
+    </div>
+  </div>
+  <p class="hint">Tap the film you rate higher.</p>
+  <button class="ghost" id="wbRestart">↺ Different genre</button>
+</section>
+
+<!-- WHO'S BETTER: end -->
+<section class="screen" id="wbEndScreen">
+  <h1 class="t" style="font-size:clamp(26px,6vw,40px)">Last one <span style="background:linear-gradient(135deg,var(--red),var(--amber) 52%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent">standing</span></h1>
+  <div class="crown2">
+    <div class="role">Your pick in <span id="wbCrownGenre">—</span></div>
+    <div class="alb" id="wbCrownAlb">—</div><div class="meta" id="wbCrownMeta"></div><div class="reign" id="wbCrownReign"></div>
+  </div>
+  <div class="glhead2" id="wbGlHead">Saw off</div>
+  <div id="wbGauntlet"></div>
+  <button class="cta" id="wbAgainSame" style="margin-top:8px">Same genre, new five</button>
+  <button class="ghost" id="wbAgainNew">Pick a different genre</button>
+  <div class="center"><a class="home" href="#" id="wbBackHome">← Roll It home</a></div>
+</section>
+
+</div>
+
+<!-- TALENT picker overlay -->
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <div class="landed"><div class="lab">The reel landed on</div><div class="gn" id="landedCat">—</div></div>
+    <div class="pick-hint">Pick one actor for your cast</div>
+    <div class="actgrid" id="actGrid"></div>
+    <button class="ghost" id="cancelPick">Cancel</button>
+  </div>
+</div>
+
+<script>
+const CAST_GENRES=[
+  {genre:"Heist",icon:"💰",color:"#5b8fb0",roles:["Mastermind","The Hacker","The Muscle","Inside Man","Getaway Driver"]},
+  {genre:"Rom-Com",icon:"💘",color:"#ff6b9d",roles:["The Lead","The Love Interest","The Best Friend","The Rival","The Meddling Parent"]},
+  {genre:"Space Opera",icon:"🚀",color:"#4db8ff",roles:["The Hero","The Captain","The Rogue","The Villain","The Droid"]},
+  {genre:"Slasher",icon:"🔪",color:"#c0392b",roles:["The Final Girl","The Jock","The Skeptic","The First Victim","The Killer"]},
+  {genre:"Epic",icon:"⚔️",color:"#e8b53a",roles:["The Hero","The Ruler","The General","The Mentor","The Traitor"]},
+  {genre:"Superhero",icon:"🦸",color:"#3d6fd6",roles:["The Hero","The Sidekick","The Villain","The Love Interest","The Mentor"]},
+  {genre:"Gangster",icon:"🎩",color:"#9a6a3a",roles:["The Boss","The Enforcer","The Snitch","The Detective","The Rookie"]},
+  {genre:"Spy Thriller",icon:"🕵️",color:"#5fa88a",roles:["The Agent","The Handler","The Villain","The Femme Fatale","The Henchman"]}
+];
+const ROLL_ACTORS=[
+  {cat:"Leading Men",actors:["Tom Hanks","Denzel Washington","Leonardo DiCaprio","Brad Pitt","Will Smith","George Clooney","Matt Damon","Ryan Gosling","Christian Bale","Hugh Jackman","Robert Downey Jr.","Keanu Reeves","Joaquin Phoenix","Matthew McConaughey","Jake Gyllenhaal","Jamie Foxx","Bradley Cooper","Ryan Reynolds","Chris Evans","Chris Hemsworth","Chris Pratt","Harrison Ford","Edward Norton","Don Cheadle","Jeff Bridges"]},
+  {cat:"Leading Ladies",actors:["Meryl Streep","Cate Blanchett","Viola Davis","Julia Roberts","Nicole Kidman","Charlize Theron","Sandra Bullock","Emma Stone","Jennifer Lawrence","Scarlett Johansson","Margot Robbie","Anne Hathaway","Natalie Portman","Reese Witherspoon","Amy Adams","Jessica Chastain","Halle Berry","Angelina Jolie","Jodie Foster","Frances McDormand","Michelle Pfeiffer","Penélope Cruz","Salma Hayek","Marion Cotillard","Rachel McAdams","Sigourney Weaver","Diane Keaton","Kerry Washington","Brie Larson"]},
+  {cat:"Character Actors",actors:["Gary Oldman","Philip Seymour Hoffman","Willem Dafoe","Steve Buscemi","John Goodman","J.K. Simmons","Mark Rylance","Stanley Tucci","Walton Goggins","Giancarlo Esposito","Christoph Waltz","Sam Rockwell","Michael Shannon","Paul Giamatti","John Turturro","Christopher Walken","Danny DeVito","Ed Harris","William H. Macy","Richard Jenkins","Jeffrey Wright","Delroy Lindo","Kathy Bates","Allison Janney","Toni Collette","Catherine Keener"]},
+  {cat:"Action Stars",actors:["Arnold Schwarzenegger","Sylvester Stallone","Bruce Willis","Tom Cruise","Jason Statham","Dwayne Johnson","Michelle Yeoh","Jackie Chan","Gal Gadot","Uma Thurman","Vin Diesel","Jean-Claude Van Damme","Jet Li","Donnie Yen","Wesley Snipes","Kurt Russell","Milla Jovovich","Zoe Saldana","Liam Neeson","Michelle Rodriguez","Rebecca Ferguson","Hayley Atwell"]},
+  {cat:"Comedy Legends",actors:["Robin Williams","Jim Carrey","Eddie Murphy","Bill Murray","Steve Martin","Melissa McCarthy","Will Ferrell","Tina Fey","Mike Myers","Ben Stiller","Adam Sandler","Seth Rogen","Jonah Hill","Kristen Wiig","Amy Poehler","Steve Carell","Owen Wilson","Jack Black","Chris Rock","Paul Rudd","Jason Bateman","Maya Rudolph","Kate McKinnon","Billy Crystal","Mel Brooks","Whoopi Goldberg","Richard Pryor","Leslie Nielsen","John Candy"]},
+  {cat:"Golden-Age Hollywood",actors:["Humphrey Bogart","Cary Grant","James Stewart","Audrey Hepburn","Katharine Hepburn","Marlon Brando","Grace Kelly","Gregory Peck","Ingrid Bergman","Sidney Poitier","Elizabeth Taylor","Clark Gable","Spencer Tracy","Henry Fonda","Gene Kelly","Fred Astaire","Bette Davis","Marilyn Monroe","Rita Hayworth","Lauren Bacall","Vivien Leigh","James Dean","Kirk Douglas","Burt Lancaster","Paul Newman","Steve McQueen","Gary Cooper","John Wayne","Orson Welles","Judy Garland","Frank Sinatra","Jack Lemmon"]},
+  {cat:"Modern A-List",actors:["Timothée Chalamet","Zendaya","Florence Pugh","Michael B. Jordan","Saoirse Ronan","Adam Driver","Lupita Nyong'o","Oscar Isaac","Anya Taylor-Joy","Pedro Pascal","Austin Butler","Sydney Sweeney","Paul Mescal","Jacob Elordi","Ana de Armas","Jenna Ortega","Tom Holland","John David Washington","Steven Yeun","Awkwafina","Hailee Steinfeld","Elizabeth Olsen","Jonathan Majors","LaKeith Stanfield","Ke Huy Quan","Glen Powell","Margaret Qualley","Barry Keoghan"]},
+  {cat:"British & Irish Greats",actors:["Daniel Day-Lewis","Anthony Hopkins","Judi Dench","Maggie Smith","Ian McKellen","Helen Mirren","Idris Elba","Tilda Swinton","Tom Hardy","Olivia Colman","Daniel Craig","Emma Thompson","Kate Winslet","Michael Caine","Sean Connery","Colin Firth","Hugh Grant","Benedict Cumberbatch","Tom Hiddleston","Ewan McGregor","Kenneth Branagh","Ralph Fiennes","Bill Nighy","Chiwetel Ejiofor","Rosamund Pike","Carey Mulligan","Emily Blunt","Keira Knightley","Robert Pattinson","Andrew Garfield","Dev Patel","Daniel Kaluuya","Riz Ahmed","John Boyega","David Oyelowo","Mark Strong","Cillian Murphy","Brendan Gleeson","Colin Farrell"]}
+];
+const FILM_GENRES=[
+  {genre:"Sci-Fi",films:[{t:"2001: A Space Odyssey",y:1968},{t:"Blade Runner",y:1982},{t:"Alien",y:1979},{t:"The Matrix",y:1999},{t:"Star Wars",y:1977},{t:"E.T. the Extra-Terrestrial",y:1982},{t:"Back to the Future",y:1985},{t:"Inception",y:2010},{t:"Arrival",y:2016},{t:"Interstellar",y:2014},{t:"Jurassic Park",y:1993},{t:"Terminator 2: Judgment Day",y:1991}]},
+  {genre:"Crime & Gangster",films:[{t:"The Godfather",y:1972},{t:"Goodfellas",y:1990},{t:"Pulp Fiction",y:1994},{t:"The Departed",y:2006},{t:"Scarface",y:1983},{t:"Heat",y:1995},{t:"The Godfather Part II",y:1974},{t:"Casino",y:1995},{t:"No Country for Old Men",y:2007},{t:"Reservoir Dogs",y:1992},{t:"The Untouchables",y:1987},{t:"L.A. Confidential",y:1997}]},
+  {genre:"Action",films:[{t:"Die Hard",y:1988},{t:"Mad Max: Fury Road",y:2015},{t:"Raiders of the Lost Ark",y:1981},{t:"John Wick",y:2014},{t:"The Dark Knight",y:2008},{t:"Mission: Impossible - Fallout",y:2018},{t:"Aliens",y:1986},{t:"Top Gun: Maverick",y:2022},{t:"Speed",y:1994},{t:"Casino Royale",y:2006},{t:"Skyfall",y:2012}]},
+  {genre:"Horror",films:[{t:"The Shining",y:1980},{t:"Halloween",y:1978},{t:"The Exorcist",y:1973},{t:"Psycho",y:1960},{t:"Get Out",y:2017},{t:"Hereditary",y:2018},{t:"A Nightmare on Elm Street",y:1984},{t:"The Thing",y:1982},{t:"Scream",y:1996},{t:"Jaws",y:1975},{t:"Rosemary's Baby",y:1968},{t:"It Follows",y:2014}]},
+  {genre:"Rom-Com",films:[{t:"When Harry Met Sally",y:1989},{t:"Notting Hill",y:1999},{t:"Pretty Woman",y:1990},{t:"Bridget Jones's Diary",y:2001},{t:"Four Weddings and a Funeral",y:1994},{t:"Groundhog Day",y:1993},{t:"10 Things I Hate About You",y:1999},{t:"Love Actually",y:2003},{t:"Crazy Rich Asians",y:2018},{t:"The Princess Bride",y:1987},{t:"Sleepless in Seattle",y:1993},{t:"About Time",y:2013}]},
+  {genre:"Drama",films:[{t:"The Shawshank Redemption",y:1994},{t:"Forrest Gump",y:1994},{t:"Schindler's List",y:1993},{t:"12 Angry Men",y:1957},{t:"One Flew Over the Cuckoo's Nest",y:1975},{t:"Whiplash",y:2014},{t:"The Social Network",y:2010},{t:"There Will Be Blood",y:2007},{t:"Parasite",y:2019},{t:"Nomadland",y:2020},{t:"Moonlight",y:2016},{t:"A Beautiful Mind",y:2001}]},
+  {genre:"Animation",films:[{t:"Toy Story",y:1995},{t:"Spirited Away",y:2001},{t:"The Lion King",y:1994},{t:"Up",y:2009},{t:"Shrek",y:2001},{t:"Spider-Man: Into the Spider-Verse",y:2018},{t:"WALL-E",y:2008},{t:"Finding Nemo",y:2003},{t:"My Neighbour Totoro",y:1988},{t:"Coco",y:2017},{t:"Ratatouille",y:2007},{t:"How to Train Your Dragon",y:2010}]},
+  {genre:"Epic & Historical",films:[{t:"Lawrence of Arabia",y:1962},{t:"Gladiator",y:2000},{t:"Braveheart",y:1995},{t:"Ben-Hur",y:1959},{t:"The Lord of the Rings: The Fellowship of the Ring",y:2001},{t:"Apocalypse Now",y:1979},{t:"Saving Private Ryan",y:1998},{t:"Dances with Wolves",y:1990},{t:"1917",y:2019},{t:"Dunkirk",y:2017},{t:"Spartacus",y:1960}]},
+  {genre:"Thriller",films:[{t:"Se7en",y:1995},{t:"The Silence of the Lambs",y:1991},{t:"North by Northwest",y:1959},{t:"Rear Window",y:1954},{t:"Memento",y:2000},{t:"Zodiac",y:2007},{t:"Gone Girl",y:2014},{t:"Prisoners",y:2013},{t:"The Usual Suspects",y:1995},{t:"Vertigo",y:1958},{t:"Nightcrawler",y:2014},{t:"Oldboy",y:2003}]},
+  {genre:"Comedy",films:[{t:"Airplane!",y:1980},{t:"Monty Python and the Holy Grail",y:1975},{t:"The Grand Budapest Hotel",y:2014},{t:"Superbad",y:2007},{t:"Anchorman",y:2004},{t:"Dumb and Dumber",y:1994},{t:"The Hangover",y:2009},{t:"Ferris Bueller's Day Off",y:1986},{t:"Some Like It Hot",y:1959},{t:"Shaun of the Dead",y:2004},{t:"Bridesmaids",y:2011}]}
+];
+
+const RECAST_FILMS=[
+ {t:"The Godfather",y:1972,g:"Crime",c:"#9a6a3a",cast:[
+  {ch:"Vito Corleone",a:"Marlon Brando"},{ch:"Michael Corleone",a:"Al Pacino"},{ch:"Sonny Corleone",a:"James Caan"},{ch:"Tom Hagen",a:"Robert Duvall"},{ch:"Kay Adams",a:"Diane Keaton"},{ch:"Fredo Corleone",a:"John Cazale"},{ch:"Connie Corleone",a:"Talia Shire"},{ch:"Clemenza",a:"Richard Castellano"},{ch:"Capt. McCluskey",a:"Sterling Hayden"},{ch:"Jack Woltz",a:"John Marley"}]},
+ {t:"Star Wars: A New Hope",y:1977,g:"Sci-Fi",c:"#4db8ff",cast:[
+  {ch:"Luke Skywalker",a:"Mark Hamill"},{ch:"Han Solo",a:"Harrison Ford"},{ch:"Princess Leia",a:"Carrie Fisher"},{ch:"Obi-Wan Kenobi",a:"Alec Guinness"},{ch:"Darth Vader",a:"David Prowse"},{ch:"Grand Moff Tarkin",a:"Peter Cushing"},{ch:"C-3PO",a:"Anthony Daniels"},{ch:"Chewbacca",a:"Peter Mayhew"},{ch:"R2-D2",a:"Kenny Baker"}]},
+ {t:"The Dark Knight",y:2008,g:"Action",c:"#3d6fd6",cast:[
+  {ch:"Bruce Wayne / Batman",a:"Christian Bale"},{ch:"The Joker",a:"Heath Ledger"},{ch:"Harvey Dent",a:"Aaron Eckhart"},{ch:"Alfred",a:"Michael Caine"},{ch:"Rachel Dawes",a:"Maggie Gyllenhaal"},{ch:"Jim Gordon",a:"Gary Oldman"},{ch:"Lucius Fox",a:"Morgan Freeman"},{ch:"Scarecrow",a:"Cillian Murphy"}]},
+ {t:"Titanic",y:1997,g:"Drama",c:"#ff6b9d",cast:[
+  {ch:"Jack Dawson",a:"Leonardo DiCaprio"},{ch:"Rose DeWitt Bukater",a:"Kate Winslet"},{ch:"Cal Hockley",a:"Billy Zane"},{ch:"Old Rose",a:"Gloria Stuart"},{ch:"Ruth DeWitt Bukater",a:"Frances Fisher"},{ch:"Molly Brown",a:"Kathy Bates"},{ch:"Brock Lovett",a:"Bill Paxton"},{ch:"Thomas Andrews",a:"Victor Garber"},{ch:"Captain Smith",a:"Bernard Hill"},{ch:"Spicer Lovejoy",a:"David Warner"}]},
+ {t:"Jurassic Park",y:1993,g:"Adventure",c:"#1ea24f",cast:[
+  {ch:"Dr. Alan Grant",a:"Sam Neill"},{ch:"Dr. Ellie Sattler",a:"Laura Dern"},{ch:"Dr. Ian Malcolm",a:"Jeff Goldblum"},{ch:"John Hammond",a:"Richard Attenborough"},{ch:"Robert Muldoon",a:"Bob Peck"},{ch:"Donald Gennaro",a:"Martin Ferrero"},{ch:"Dennis Nedry",a:"Wayne Knight"},{ch:"Ray Arnold",a:"Samuel L. Jackson"},{ch:"Lex Murphy",a:"Ariana Richards"},{ch:"Tim Murphy",a:"Joseph Mazzello"}]},
+ {t:"The Avengers",y:2012,g:"Superhero",c:"#c0392b",cast:[
+  {ch:"Iron Man",a:"Robert Downey Jr."},{ch:"Captain America",a:"Chris Evans"},{ch:"Thor",a:"Chris Hemsworth"},{ch:"Hulk",a:"Mark Ruffalo"},{ch:"Black Widow",a:"Scarlett Johansson"},{ch:"Hawkeye",a:"Jeremy Renner"},{ch:"Loki",a:"Tom Hiddleston"},{ch:"Nick Fury",a:"Samuel L. Jackson"},{ch:"Agent Coulson",a:"Clark Gregg"},{ch:"Maria Hill",a:"Cobie Smulders"}]},
+ {t:"Harry Potter & the Philosopher's Stone",y:2001,g:"Fantasy",c:"#9b4dff",cast:[
+  {ch:"Harry Potter",a:"Daniel Radcliffe"},{ch:"Ron Weasley",a:"Rupert Grint"},{ch:"Hermione Granger",a:"Emma Watson"},{ch:"Dumbledore",a:"Richard Harris"},{ch:"Hagrid",a:"Robbie Coltrane"},{ch:"McGonagall",a:"Maggie Smith"},{ch:"Snape",a:"Alan Rickman"},{ch:"Draco Malfoy",a:"Tom Felton"},{ch:"Prof. Quirrell",a:"Ian Hart"}]},
+ {t:"The Matrix",y:1999,g:"Sci-Fi",c:"#00e5ff",cast:[
+  {ch:"Neo",a:"Keanu Reeves"},{ch:"Morpheus",a:"Laurence Fishburne"},{ch:"Trinity",a:"Carrie-Anne Moss"},{ch:"Agent Smith",a:"Hugo Weaving"},{ch:"Cypher",a:"Joe Pantoliano"},{ch:"The Oracle",a:"Gloria Foster"},{ch:"Tank",a:"Marcus Chong"},{ch:"Mouse",a:"Matt Doran"}]},
+ {t:"Gladiator",y:2000,g:"Epic",c:"#e8b53a",cast:[
+  {ch:"Maximus",a:"Russell Crowe"},{ch:"Commodus",a:"Joaquin Phoenix"},{ch:"Lucilla",a:"Connie Nielsen"},{ch:"Proximo",a:"Oliver Reed"},{ch:"Marcus Aurelius",a:"Richard Harris"},{ch:"Juba",a:"Djimon Hounsou"},{ch:"Gracchus",a:"Derek Jacobi"},{ch:"Quintus",a:"Tomas Arana"}]},
+ {t:"Mean Girls",y:2004,g:"Comedy",c:"#f4cf63",cast:[
+  {ch:"Cady Heron",a:"Lindsay Lohan"},{ch:"Regina George",a:"Rachel McAdams"},{ch:"Janis Ian",a:"Lizzy Caplan"},{ch:"Gretchen Wieners",a:"Lacey Chabert"},{ch:"Karen Smith",a:"Amanda Seyfried"},{ch:"Ms. Norbury",a:"Tina Fey"},{ch:"Damian",a:"Daniel Franzese"},{ch:"Aaron Samuels",a:"Jonathan Bennett"},{ch:"Principal Duvall",a:"Tim Meadows"},{ch:"Mrs. George",a:"Amy Poehler"}]},
+ {t:"The Wizard of Oz",y:1939,g:"Fantasy",c:"#1ea24f",cast:[
+  {ch:"Dorothy",a:"Judy Garland"},{ch:"Scarecrow",a:"Ray Bolger"},{ch:"Tin Man",a:"Jack Haley"},{ch:"Cowardly Lion",a:"Bert Lahr"},{ch:"Wicked Witch",a:"Margaret Hamilton"},{ch:"The Wizard",a:"Frank Morgan"},{ch:"Glinda",a:"Billie Burke"},{ch:"Auntie Em",a:"Clara Blandick"}]},
+ {t:"Pulp Fiction",y:1994,g:"Crime",c:"#a9763e",cast:[
+  {ch:"Vincent Vega",a:"John Travolta"},{ch:"Jules Winnfield",a:"Samuel L. Jackson"},{ch:"Mia Wallace",a:"Uma Thurman"},{ch:"Butch Coolidge",a:"Bruce Willis"},{ch:"Marsellus Wallace",a:"Ving Rhames"},{ch:"Pumpkin",a:"Tim Roth"},{ch:"Honey Bunny",a:"Amanda Plummer"},{ch:"Winston Wolfe",a:"Harvey Keitel"},{ch:"Jimmie",a:"Quentin Tarantino"},{ch:"Lance",a:"Eric Stoltz"}]}
+];
+
+(function(){
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+function show(id){$$(".screen").forEach(s=>s.classList.remove("show"));$("#"+id).classList.add("show");window.scrollTo(0,0);}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+/* topbar */
+$("#rollHome").onclick=()=>show("homeScreen");
+$("#spinHome").onclick=()=>{ window.location.href="../"; };
+
+/* ===== DREAM CAST ===== */
+const C={name:"", genre:null, cast:{}, used:new Set(), choosing:false, pendingActor:null};
+$("#startCast").onclick=()=>{
+  C.name=($("#filmName").value.trim())||"Untitled";
+  renderCastGenres(); show("castGenreScreen");
+};
+function renderCastGenres(){
+  const list=$("#castGenreList");list.innerHTML="";
+  CAST_GENRES.forEach(g=>{
+    const b=document.createElement("button");b.className="posbtn typebtn";b.style.setProperty("--tc",g.color);
+    b.innerHTML='<div class="tdot" style="background:'+g.color+'"></div><div class="temoji">'+g.icon+'</div><div class="nm" style="font-size:15px">'+esc(g.genre)+'</div><div class="ct">'+g.roles.length+' roles to cast</div>';
+    b.onclick=()=>castStart(g);
+    list.appendChild(b);
+  });
+}
+$("#castGenreHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+function castStart(g){
+  C.genre=g;C.cast={};C.used=new Set();C.choosing=false;C.pendingActor=null;
+  $("#castTitle").textContent=C.name;
+  $("#castType").innerHTML='<span style="color:'+g.color+'">'+g.icon+'</span> '+esc(g.genre);
+  renderRoles();castCount();
+  show("castScreen");
+}
+function renderRoles(){
+  const wrap=$("#castRoles");wrap.innerHTML="";
+  const box=document.createElement("div");box.className="stage";
+  let html='<div class="sh"><span class="nm" style="color:'+C.genre.color+'">'+esc(C.genre.genre)+' cast</span></div>';
+  C.genre.roles.forEach((role,i)=>{
+    const actor=C.cast[i];const choosing=C.choosing&&!actor;
+    html+='<div class="slot '+(actor?"filled":"empty")+(choosing?" choosing":"")+'" data-role="'+i+'">'
+      +'<div class="tslot"><div class="tier">'+esc(role)+'</div></div>'
+      +'<div class="fill">'+(actor?('<span class="act">'+esc(actor)+'</span>'):(choosing?'Cast here →':'—'))+'</div></div>';
+  });
+  box.innerHTML=html;wrap.appendChild(box);
+  if(C.choosing) wrap.querySelectorAll('.slot.choosing').forEach(el=>el.onclick=()=>castPlace(+el.dataset.role));
+}
+function castCount(){
+  const n=Object.keys(C.cast).length;
+  $("#castCount").textContent=n+" / "+C.genre.roles.length+" cast";
+  const btn=$("#castSpinBtn");
+  if(n>=C.genre.roles.length){ btn.innerHTML="Reveal the poster →"; btn.dataset.done="1"; }
+  else { btn.dataset.done="0"; btn.innerHTML='<span class="mini">'+castMini+'</span> Spin for talent'; }
+}
+const castMini=(function(){const m=$("#castSpinBtn").querySelector(".mini");return m?m.innerHTML:"";})();
+$("#castSpinBtn").onclick=function(){
+  if(this.dataset.done==="1"){ castReveal(); return; }
+  if(C.choosing||Object.keys(C.cast).length>=C.genre.roles.length) return;
+  const avail=ROLL_ACTORS.filter(c=>c.actors.some(a=>!C.used.has(a)));
+  const cat=avail[Math.floor(Math.random()*avail.length)];
+  $("#landedCat").textContent=cat.cat;
+  const grid=$("#actGrid");grid.innerHTML="";
+  cat.actors.slice().forEach(a=>{
+    const b=document.createElement("button");b.className="actbtn";b.textContent=a;
+    if(C.used.has(a)) b.disabled=true; else b.onclick=()=>castChoose(a);
+    grid.appendChild(b);
+  });
+  $("#overlay").classList.add("show");
+};
+$("#cancelPick").onclick=()=>{ $("#overlay").classList.remove("show"); };
+function castChoose(a){
+  C.pendingActor=a;C.choosing=true;
+  $("#overlay").classList.remove("show");
+  renderRoles();castCount();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function castPlace(roleIdx){
+  if(!C.choosing||!C.pendingActor||C.cast[roleIdx]) return;
+  C.cast[roleIdx]=C.pendingActor;C.used.add(C.pendingActor);
+  C.choosing=false;C.pendingActor=null;
+  renderRoles();castCount();
+}
+$("#castQuit").onclick=()=>show("castGenreScreen");
+function castReveal(){
+  const p=$("#castPoster");const g=C.genre;
+  p.style.setProperty("--theme",g.color);p.classList.add("themed");
+  let html='<div class="pe" style="color:'+g.color+'">'+g.icon+' '+esc(g.genre)+'</div><div class="pn">'+esc(C.name)+'</div><div class="pd">Your dream cast</div>';
+  g.roles.forEach((role,i)=>{
+    html+='<div class="prow"><div class="castrole" style="color:'+g.color+'">'+esc(role)+'</div><div class="castname">'+esc(C.cast[i]||"—")+'</div></div>';
+  });
+  p.innerHTML=html;
+  $("#castAfter").style.display="none";
+  $("#castRevealScreen .verdict-q").style.display="";$("#castRevealScreen .vbtns").style.display="";
+  show("castRevealScreen");
+}
+$("#castYes").onclick=()=>castEnd(true);
+$("#castNo").onclick=()=>castEnd(false);
+function castEnd(happy){
+  $("#castRevealScreen .verdict-q").style.display="none";$("#castRevealScreen .vbtns").style.display="none";
+  const bl=$("#castBadge");bl.className="badge-line "+(happy?"happy":"meh");
+  $("#castVText").textContent=happy?"Greenlit ✓":"Back to casting…";
+  $("#castVSub").textContent=happy?(esc(C.name)+" is going to be a hit."):"Spin again and recast the roles.";
+  $("#castAfter").style.display="";
+}
+$("#castAgain").onclick=()=>{ renderCastGenres(); show("castGenreScreen"); };
+$("#castBackHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+
+/* ===== RE-CAST ===== */
+const RC={film:null, repl:{}, used:new Set(), choosing:false, pendingActor:null};
+$("#startRecast").onclick=()=>{ renderRecastFilms(); show("recastPickScreen"); };
+function renderRecastFilms(){
+  const list=$("#recastFilmList");list.innerHTML="";
+  RECAST_FILMS.forEach((f,i)=>{
+    const b=document.createElement("button");b.className="posbtn typebtn";b.style.setProperty("--tc",f.c);
+    b.innerHTML='<div class="tdot" style="background:'+f.c+'"></div><div class="nm" style="font-size:14px">'+esc(f.t)+'</div><div class="ct">'+esc(f.g)+' · '+f.y+' · '+f.cast.length+' roles</div>';
+    b.onclick=()=>recastStart(i);
+    list.appendChild(b);
+  });
+}
+$("#recastPickHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+function recastStart(i){
+  RC.film=RECAST_FILMS[i];RC.repl={};RC.used=new Set();RC.choosing=false;RC.pendingActor=null;
+  $("#recastTitle").textContent=RC.film.t;
+  $("#recastType").innerHTML='<span style="color:'+RC.film.c+'">●</span> '+esc(RC.film.g)+' · '+RC.film.y;
+  renderRecast();recastCount();
+  show("recastScreen");
+}
+function renderRecast(){
+  const wrap=$("#recastRoles");wrap.innerHTML="";
+  const box=document.createElement("div");box.className="stage";
+  let html='<div class="sh"><span class="nm" style="color:'+RC.film.c+'">Original cast</span></div>';
+  RC.film.cast.forEach((m,i)=>{
+    const neu=RC.repl[i];const choosing=RC.choosing&&!neu;
+    let fill;
+    if(neu) fill='<div class="neu">'+esc(neu)+'</div><div class="orig">was '+esc(m.a)+'</div>';
+    else if(choosing) fill='<span style="color:var(--gold);font-weight:700">Recast here →</span>';
+    else fill='<div class="keep">'+esc(m.a)+'</div>';
+    html+='<div class="slot '+(neu?"filled":"")+(choosing?" choosing":"")+'" data-role="'+i+'">'
+      +'<div class="tslot"><div class="tier">'+esc(m.ch)+'</div></div>'
+      +'<div class="fill" style="flex-direction:column;align-items:flex-start;gap:2px;font-style:normal;opacity:1">'+fill+'</div></div>';
+  });
+  box.innerHTML=html;wrap.appendChild(box);
+  if(RC.choosing) wrap.querySelectorAll('.slot.choosing').forEach(el=>el.onclick=()=>recastPlace(+el.dataset.role));
+}
+function recastCount(){
+  const n=Object.keys(RC.repl).length, tot=RC.film.cast.length;
+  $("#recastCount").textContent=n+" / "+tot+" recast";
+  const btn=$("#recastSpinBtn");
+  if(n>=tot){ btn.innerHTML="Reveal your version →"; btn.dataset.done="1"; }
+  else { btn.dataset.done="0"; btn.innerHTML='<span class="mini">'+castMini+'</span> Spin for a star'; }
+}
+$("#recastSpinBtn").onclick=function(){
+  if(this.dataset.done==="1"){ recastReveal(); return; }
+  if(RC.choosing||Object.keys(RC.repl).length>=RC.film.cast.length) return;
+  const avail=ROLL_ACTORS.filter(c=>c.actors.some(a=>!RC.used.has(a)));
+  const cat=avail[Math.floor(Math.random()*avail.length)];
+  $("#landedCat").textContent=cat.cat;
+  const grid=$("#actGrid");grid.innerHTML="";
+  cat.actors.slice().forEach(a=>{
+    const b=document.createElement("button");b.className="actbtn";b.textContent=a;
+    if(RC.used.has(a)) b.disabled=true; else b.onclick=()=>recastChoose(a);
+    grid.appendChild(b);
+  });
+  $("#overlay").classList.add("show");
+};
+function recastChoose(a){
+  RC.pendingActor=a;RC.choosing=true;
+  $("#overlay").classList.remove("show");
+  renderRecast();recastCount();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function recastPlace(idx){
+  if(!RC.choosing||!RC.pendingActor||RC.repl[idx]) return;
+  RC.repl[idx]=RC.pendingActor;RC.used.add(RC.pendingActor);
+  RC.choosing=false;RC.pendingActor=null;
+  renderRecast();recastCount();
+}
+$("#recastQuit").onclick=()=>show("recastPickScreen");
+function recastReveal(){
+  const p=$("#recastPoster");const f=RC.film;
+  p.style.setProperty("--theme",f.c);p.classList.add("themed");
+  let html='<div class="pe" style="color:'+f.c+'">Re-cast · '+esc(f.g)+'</div><div class="pn">'+esc(f.t)+'</div><div class="pd">your version · originally '+f.y+'</div>';
+  f.cast.forEach((m,i)=>{
+    html+='<div class="recastrow"><div class="rc-ch" style="color:'+f.c+'">'+esc(m.ch)+'</div><div class="rc-new">'+esc(RC.repl[i]||m.a)+'</div><div class="rc-old">was '+esc(m.a)+'</div></div>';
+  });
+  p.innerHTML=html;
+  $("#recastAfter").style.display="none";
+  $("#recastRevealScreen .verdict-q").style.display="";$("#recastRevealScreen .vbtns").style.display="";
+  show("recastRevealScreen");
+}
+$("#recastYes").onclick=()=>recastEnd(true);
+$("#recastNo").onclick=()=>recastEnd(false);
+function recastEnd(happy){
+  $("#recastRevealScreen .verdict-q").style.display="none";$("#recastRevealScreen .vbtns").style.display="none";
+  const bl=$("#recastBadge");bl.className="badge-line "+(happy?"happy":"meh");
+  $("#recastVText").textContent=happy?"That's a wrap ✓":"Back to the drawing board";
+  $("#recastVSub").textContent=happy?("Your "+esc(RC.film.t)+" is ready to shoot."):"Spin again and try a different cast.";
+  $("#recastAfter").style.display="";
+}
+$("#recastAgain").onclick=()=>{ renderRecastFilms(); show("recastPickScreen"); };
+$("#recastBackHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+
+/* ===== TOP 5 FILMS ===== */
+const T5={genre:null, queue:[], idx:0, ranking:[]};
+const T5_LEN=5;
+$("#startTop5").onclick=()=>{ renderT5Genres(); show("t5GenreScreen"); };
+$("#t5GenreHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+function renderT5Genres(){
+  const list=$("#t5GenreList");list.innerHTML="";
+  FILM_GENRES.forEach(g=>{
+    const b=document.createElement("button");b.className="posbtn";
+    b.innerHTML='<div class="nm" style="font-size:14px">'+esc(g.genre)+'</div><div class="ct">'+g.films.length+' films</div>';
+    b.onclick=()=>t5Start(g);list.appendChild(b);
+  });
+}
+function filmMeta(f){return "'"+String(f.y).slice(2);}
+function t5Start(g){
+  T5.genre=g;
+  const pool=g.films.slice();
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  T5.queue=pool.slice(0,T5_LEN);
+  T5.idx=0;T5.ranking=[];for(let i=0;i<T5_LEN;i++)T5.ranking.push(null);
+  $("#t5GenreLabel").textContent=g.genre;
+  t5Render();show("t5RankScreen");
+}
+function t5Render(){
+  const pips=$("#t5Pips");pips.innerHTML="";
+  for(let i=0;i<T5_LEN;i++){const s=document.createElement("span");s.className="pip"+(i<T5.idx?" done":(i===T5.idx?" live":""));pips.appendChild(s);}
+  if(T5.idx<T5_LEN){ $("#t5CurCard").style.display="";$("#t5CurName").textContent=T5.queue[T5.idx].t;$("#t5CurMeta").textContent=T5.queue[T5.idx].y; }
+  else { $("#t5CurCard").style.display="none"; }
+  const wrap=$("#t5Slots");wrap.innerHTML="";
+  const box=document.createElement("div");box.className="stage";
+  let html='<div class="sh"><span class="nm" style="cursor:default">Your ranking</span></div>';
+  for(let i=0;i<T5_LEN;i++){
+    const f=T5.ranking[i];const choosing=!f && T5.idx<T5_LEN;
+    html+='<div class="slot '+(f?"filled":"empty")+(choosing?" choosing":"")+'" data-rank="'+i+'">'
+      +'<div class="tslot"><div class="tier">#'+(i+1)+'</div></div>'
+      +'<div class="fill">'+(f?('<span class="act" style="font-size:15px">'+esc(f.t)+'</span>'):(choosing?'Place here →':'—'))+'</div></div>';
+  }
+  box.innerHTML=html;wrap.appendChild(box);
+  if(T5.idx<T5_LEN) wrap.querySelectorAll('.slot.choosing').forEach(el=>el.onclick=()=>t5Place(+el.dataset.rank));
+}
+function t5Place(rank){
+  if(T5.ranking[rank]||T5.idx>=T5_LEN) return;
+  T5.ranking[rank]=T5.queue[T5.idx];T5.idx++;
+  if(T5.idx>=T5_LEN){ t5Render(); setTimeout(t5Reveal,240); } else t5Render();
+}
+$("#t5Restart").onclick=()=>show("t5GenreScreen");
+function t5Reveal(){
+  const p=$("#t5Poster");
+  let html='<div class="pe">Roll It presents</div><div class="pn">Top 5</div><div class="pd">'+esc(T5.genre.genre)+' · your ranking</div>';
+  T5.ranking.forEach((f,i)=>{
+    const cls=i===0?"h1act":(i===1?"h2act":"h3act");
+    html+='<div class="prow '+cls+'" style="margin:8px 0"><span style="color:var(--gold);font-family:var(--display);margin-right:10px">'+(i+1)+'</span>'+esc(f.t)+'<span class="dot">·</span><span style="color:var(--muted);font-size:13px">'+f.y+'</span></div>';
+  });
+  p.innerHTML=html;
+  $("#t5After").style.display="none";
+  $("#t5RevealScreen .verdict-q").style.display="";$("#t5RevealScreen .vbtns").style.display="";
+  show("t5RevealScreen");
+}
+$("#t5Yes").onclick=()=>t5End(true);
+$("#t5No").onclick=()=>t5End(false);
+function t5End(happy){
+  $("#t5RevealScreen .verdict-q").style.display="none";$("#t5RevealScreen .vbtns").style.display="none";
+  const bl=$("#t5Badge");bl.className="badge-line "+(happy?"happy":"meh");
+  $("#t5VText").textContent=happy?"Ranking locked ✓":"Tough calls…";
+  $("#t5VSub").textContent=happy?("Your definitive "+T5.genre.genre+" top 5."):"Rank it again and see if you change your mind.";
+  $("#t5After").style.display="";
+}
+$("#t5Again").onclick=()=>{renderT5Genres();show("t5GenreScreen");};
+$("#t5Home").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+
+/* ===== WHICH FILM'S BETTER? ===== */
+const WB={genre:null, queue:[], champ:null, reign:0, idx:0, beaten:[]};
+const WB_ROUNDS=5;
+$("#startWB").onclick=()=>{ renderWBGenres(); show("wbGenreScreen"); };
+$("#wbGenreHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+function renderWBGenres(){
+  const list=$("#wbGenreList");list.innerHTML="";
+  FILM_GENRES.forEach(g=>{
+    const b=document.createElement("button");b.className="posbtn";
+    b.innerHTML='<div class="nm" style="font-size:14px">'+esc(g.genre)+'</div><div class="ct">'+g.films.length+' films</div>';
+    b.onclick=()=>wbStart(g);list.appendChild(b);
+  });
+}
+function wbStart(g){
+  WB.genre=g;
+  const pool=g.films.slice();
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  WB.queue=pool.slice(0,WB_ROUNDS);
+  WB.champ=WB.queue[0];WB.reign=0;WB.idx=1;WB.beaten=[];
+  $("#wbGenreLabel").textContent=g.genre;
+  wbPips();wbDuel();show("wbDuelScreen");
+}
+function wbPips(){
+  const pips=$("#wbPips");pips.innerHTML="";
+  for(let i=0;i<WB_ROUNDS;i++){const s=document.createElement("span");s.className="pip"+(i<WB.idx?" done":(i===WB.idx?" live":""));pips.appendChild(s);}
+}
+function wbDuel(){
+  const c=WB.champ,h=WB.queue[WB.idx];
+  $("#wbChampAlb").textContent=c.t;$("#wbChampMeta").textContent=c.y;
+  $("#wbChampReign").textContent=WB.reign>0?("seen off "+WB.reign):"";
+  $("#wbChallAlb").textContent=h.t;$("#wbChallMeta").textContent=h.y;
+  [$("#wbChamp"),$("#wbChall")].forEach(x=>{x.classList.remove("flash");void x.offsetWidth;x.classList.add("flash");});
+}
+function wbPick(champWins){
+  const h=WB.queue[WB.idx];
+  if(champWins){WB.beaten.push(h);WB.reign++;}else{WB.beaten.push(WB.champ);WB.champ=h;WB.reign=1;}
+  WB.idx++;
+  if(WB.idx>=WB_ROUNDS){wbPips();setTimeout(wbEnd,260);}else{wbPips();wbDuel();}
+}
+$("#wbChamp").onclick=()=>wbPick(true);
+$("#wbChall").onclick=()=>wbPick(false);
+$("#wbChamp").onkeydown=(e)=>{if(e.key==="Enter"||e.key===" ")wbPick(true);};
+$("#wbChall").onkeydown=(e)=>{if(e.key==="Enter"||e.key===" ")wbPick(false);};
+$("#wbRestart").onclick=()=>show("wbGenreScreen");
+function wbEnd(){
+  $("#wbCrownGenre").textContent=WB.genre.genre;
+  $("#wbCrownAlb").textContent=WB.champ.t;$("#wbCrownMeta").textContent=WB.champ.y;
+  $("#wbCrownReign").textContent=WB.reign>0?("Saw off "+WB.reign+" challenger"+(WB.reign>1?"s":"")+" to finish on top"):"Took the spot at the last";
+  const g=$("#wbGauntlet");g.innerHTML="";
+  const fell=WB.beaten.slice().reverse();
+  $("#wbGlHead").textContent=fell.length?"Saw off":"";
+  fell.forEach(f=>{const el=document.createElement("div");el.className="gl2";el.innerHTML='<div class="x">✕</div><div class="pn">'+esc(f.t)+'</div><div class="pm">'+f.y+'</div>';g.appendChild(el);});
+  show("wbEndScreen");
+}
+$("#wbAgainSame").onclick=()=>wbStart(WB.genre);
+$("#wbAgainNew").onclick=()=>{renderWBGenres();show("wbGenreScreen");};
+$("#wbBackHome").onclick=(e)=>{e.preventDefault();show("homeScreen");};
+
+})();
+</script>
+</body>
+</html>
