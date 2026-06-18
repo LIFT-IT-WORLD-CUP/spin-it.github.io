@@ -139,7 +139,7 @@ input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;bac
     <div class="guesswrap">
       <div class="guessval" id="wGuess">£25</div>
       <input type="range" id="wSlider" min="0" max="1000" value="500" step="1">
-      <div class="scaleends"><span>10p</span><span>£500</span></div>
+      <div class="scaleends"><span>10p</span><span>£700</span></div>
     </div>
     <button class="cta" id="wLock" style="margin-top:14px">Lock in this price</button>
   </div>
@@ -174,9 +174,9 @@ const $=s=>document.querySelector(s);
 function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("show"));$("#"+id).classList.add("show");window.scrollTo(0,0);}
 
 /* UK long-run inflation: ONS composite price index (£100-in-1751 basis). mult = PV[to]/PV[from]. */
-const PV={1963:1080,1965:1168,1970:1462,1984:7036,1996:12048,2003:14304,2024:28169.13,2025:29084.71,2026:29356.37};
+const PV={1963:1080,1965:1168,1970:1462,1984:7036,1985:7464,1992:10928,1996:12048,2003:14304,2023:27278.85,2024:28169.13,2025:29084.71,2026:29356.37};
 /* Live-music index: Glastonbury weekend ticket (£). Today (2026) uses 2025's £373.50. */
-const GI={1963:0.7,1965:0.8,1970:1,1984:13,1996:70,2003:105,2024:355,2025:373.5,2026:373.5};
+const GI={1963:0.7,1965:0.8,1970:1,1984:13,1985:16,1992:49,1996:70,2003:105,2023:335,2024:355,2025:373.5,2026:373.5};
 const NOW=2026;
 function cpiV(p,from,to){return p*PV[to]/PV[from];}
 function fbV(p,from,to){return p*GI[to]/GI[from];}
@@ -186,20 +186,25 @@ const CARDS=[
   {p:"The Beatles",f:"The Cavern Club",y:1963,fee:0.48,note:"9 shillings 6 pence",dir:"legend"},
   {p:"Glastonbury Festival",f:"Worthy Farm",y:1970,fee:1,note:"ticket included free milk",dir:"legend"},
   {p:"Glastonbury Festival",f:"Worthy Farm",y:1984,fee:13,note:"the year the lasers arrived",dir:"legend"},
+  {p:"Live Aid",f:"Wembley Stadium",y:1985,fee:25,note:"£5 ticket + £20 donation",dir:"legend"},
+  {p:"Glastonbury Festival",f:"Worthy Farm",y:1992,fee:49,note:"the Pyramid Stage burns down soon after",dir:"legend"},
   {p:"Oasis",f:"Knebworth Park",y:1996,fee:22.50,note:"biggest UK gig of the 90s",dir:"legend"},
   {p:"Glastonbury Festival",f:"Worthy Farm",y:2003,fee:105,note:"first £100+ ticket",dir:"legend"},
   // MODERN — guess price in an EARLIER era's market
   {p:"Taylor Swift",f:"The Eras Tour",y:2024,fee:110,note:"general admission",dir:"modern",past:1965},
+  {p:"Beyoncé",f:"Renaissance Tour",y:2023,fee:106.80,note:"standing, face value",dir:"modern",past:1985},
   {p:"Oasis",f:"Live '25 Reunion",y:2025,fee:148,note:"standing, face value",dir:"modern",past:1996},
+  {p:"Kendrick Lamar & SZA",f:"Grand National Tour",y:2025,fee:75,note:"from £75, official price",dir:"modern",past:1996},
   {p:"Glastonbury Festival",f:"Worthy Farm",y:2025,fee:373.50,note:"weekend ticket",dir:"modern",past:1970},
+  {p:"Glastonbury Festival",f:"Worthy Farm",y:2024,fee:355,note:"weekend ticket",dir:"modern",past:1992},
 ];
 
-const ROUNDS=7;
+const ROUNDS=8;
 const W={deck:[],i:0,score:0,log:[],locked:false};
 function fmt(v){let x;if(v<2)x=Math.round(v*100)/100;else if(v<100)x=Math.round(v*10)/10;else x=Math.round(v);return "£"+x+(v<2&&x*100%10===0&&x<1?"0":"");}
-function sliderToVal(s){const lo=Math.log10(0.10),hi=Math.log10(500);return Math.pow(10,lo+(hi-lo)*s/1000);}
+function sliderToVal(s){const lo=Math.log10(0.10),hi=Math.log10(700);return Math.pow(10,lo+(hi-lo)*s/1000);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function buildDeck(){return shuffle(shuffle(CARDS.filter(c=>c.dir==="legend")).slice(0,4).concat(shuffle(CARDS.filter(c=>c.dir==="modern")).slice(0,3)));}
+function buildDeck(){return shuffle(shuffle(CARDS.filter(c=>c.dir==="legend")).slice(0,4).concat(shuffle(CARDS.filter(c=>c.dir==="modern")).slice(0,4)));}
 
 $("#wStart").onclick=()=>{W.deck=buildDeck();W.i=0;W.score=0;W.log=[];renderRound();show("wPlay");};
 
