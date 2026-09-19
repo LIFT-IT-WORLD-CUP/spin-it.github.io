@@ -60,6 +60,23 @@ h1.screen-title{font-family:var(--display);font-size:clamp(30px,6vw,44px);text-t
   text-align:center;letter-spacing:.02em;margin-bottom:6px}
 .screen-sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:26px;line-height:1.5}
 
+/* ============================================================ LAUNCHER */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+@media (max-width:560px){.modes{grid-template-columns:1fr}}
+.mode-card{position:relative;display:block;text-align:left;text-decoration:none;cursor:pointer;color:var(--text);
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 20px;transition:transform .15s,border-color .15s}
+.mode-card:hover{transform:translateY(-3px);border-color:var(--gold)}
+.mode-card .m-emoji{font-size:34px;line-height:1;margin-bottom:12px}
+.mode-card .m-title{font-family:var(--display);font-size:30px;text-transform:uppercase;letter-spacing:.02em;line-height:1}
+.mode-card .m-tag{display:inline-block;margin-top:8px;font-size:10.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);border:1px solid rgba(232,181,58,.5);border-radius:999px;padding:3px 10px}
+.mode-card .m-desc{margin-top:12px;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.more-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.more-modes{grid-template-columns:1fr}}
+.mini-mode{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text);font-weight:700;font-size:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 16px;transition:border-color .15s}
+.mini-mode:hover{border-color:var(--muted)}
+.mini-mode span{font-size:17px}
 /* ============================================================ HOME */
 .pitch-lines{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
 .pitch-lines::before{content:"";position:absolute;left:50%;top:330px;transform:translateX(-50%);
@@ -316,8 +333,60 @@ table.grp tr.q3 td:first-child::after{content:" ●";color:var(--blue);font-size
   <button class="pill" onclick="location.reload()">↻ Restart</button>
 </div>
 
-<!-- ===================================================== HOME -->
-<section class="screen show" id="homeScreen">
+<!-- ===================================================== LAUNCHER -->
+<section class="screen show" id="launchScreen">
+  <div class="pitch-lines" aria-hidden="true"></div>
+  <main class="wrap">
+    <header class="hero">
+      <svg class="ball" viewBox="0 0 120 120" role="img" aria-label="LIFT IT ball mark">
+        <defs><clipPath id="ballClipL"><circle cx="60" cy="60" r="56"/></clipPath></defs>
+        <circle cx="60" cy="60" r="56" fill="#fdfdfc"/>
+        <g clip-path="url(#ballClipL)">
+          <path d="M-6 78 C 24 50, 44 96, 70 70 C 86 54, 102 70, 128 56 L 128 128 L -6 128 Z" fill="#1ea24f"/>
+          <path d="M-10 30 C 18 56, 40 8, 66 30 C 84 45, 70 6, 130 14 L 130 -10 L -10 -10 Z" fill="#d62f3e"/>
+          <path d="M46 44 L 78 30 L 92 62 L 60 78 Z" fill="#1f7fd1"/>
+          <path d="M14 58 L 34 50 L 40 70 L 20 78 Z" fill="#1f7fd1" opacity=".85"/>
+        </g>
+        <circle cx="60" cy="60" r="56" fill="none" stroke="rgba(0,0,0,.28)" stroke-width="2"/>
+      </svg>
+      <h1 class="wordmark">Lift <span class="it">It</span></h1>
+      <div class="tristripe" aria-hidden="true"></div>
+      <p class="sub">Pick your <em>game</em></p>
+      <p class="dare">Draft. Play. Lift it.</p>
+    </header>
+
+    <div class="modes">
+      <button class="mode-card" id="modeLiftIt" type="button">
+        <div class="m-emoji">🌍</div>
+        <div class="m-title">Lift It</div>
+        <div class="m-tag">World Cup</div>
+        <div class="m-desc">Spin the globe, draft an XI from real World Cup squads, then win the tournament in its authentic format.</div>
+      </button>
+      <a class="mode-card" href="titlerace.html" id="modeTitleRace">
+        <div class="m-emoji">🏟️</div>
+        <div class="m-title">Title Race</div>
+        <div class="m-tag">Premier League</div>
+        <div class="m-desc">Draft an XI from a classic PL season, pick a formation and chase the title across a full 38-game campaign.</div>
+      </a>
+    </div>
+
+    <p class="field-label">More games</p>
+    <div class="more-modes">
+      <a href="allstar.html" class="mini-mode"><span>⚡</span> All-Star Final</a>
+      <a href="top5.html" class="mini-mode"><span>🏆</span> Top 5</a>
+      <a href="headtohead.html" class="mini-mode"><span>⚔️</span> Who's Better?</a>
+      <a href="worth.html" class="mini-mode"><span>💷</span> What's He Worth?</a>
+    </div>
+
+    <footer>
+      LIFT IT is a fan-made game. Not affiliated with FIFA, the Premier League or any association.<br>
+      Player names are used in a historical, editorial context.
+    </footer>
+  </main>
+</section>
+
+<!-- ===================================================== HOME (World Cup builder) -->
+<section class="screen" id="homeScreen">
   <div class="pitch-lines" aria-hidden="true"></div>
   <main class="wrap">
     <header class="hero">
@@ -366,13 +435,7 @@ table.grp tr.q3 td:first-child::after{content:" ●";color:var(--blue);font-size
 
     <button class="cta" id="startBtn" style="margin-top:40px">🌍&nbsp; Spin the globe</button>
 
-    <a href="allstar.html" class="cta" id="allstarHomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">⚡&nbsp; All-Star Final</a>
-
-    <a href="top5.html" class="cta" id="top5HomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">🏆&nbsp; Top 5</a>
-
-    <a href="headtohead.html" class="cta" id="h2hHomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">⚔️&nbsp; Who's Better?</a>
-
-    <a href="worth.html" class="cta" id="worthHomeBtn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:linear-gradient(100deg,#1a1f2e,#222a3a);border:1px solid var(--gold);color:var(--gold)">💷&nbsp; What's He Worth?</a>
+    <button class="ghost" id="backToModes" style="width:100%;margin-top:12px;font-size:14px;padding:14px">← All game modes</button>
 
     <section class="panel" style="margin-top:48px">
       <h3>How it works</h3>
@@ -2072,7 +2135,9 @@ function finishGame(won,whereOut){
   show("endScreen");
 }
 $("#sameXiBtn").addEventListener("click",()=>{ initCampPick(); show("campPickScreen"); });
-$("#homeLink").addEventListener("click",()=>{ if(confirm("Back to the start? Your run will be lost."))location.reload(); });
+$("#homeLink").addEventListener("click",()=>show("launchScreen"));
+$("#modeLiftIt").addEventListener("click",()=>show("homeScreen"));
+$("#backToModes").addEventListener("click",()=>show("launchScreen"));
 })();
 </script>
 </body>
